@@ -375,20 +375,20 @@ void SetVec<Data>::Clear()
     head = 0;
 }
 
-/* ---------------------------SetVec: Protected auxilary functions (inherited from)------------------------- */
+/* ---------------------------SetVec: Protected auxilary functions------------------------- */
 
 template<typename Data>
 void SetVec<Data>::RightShift(ulong index, ulong to_shift)
 {
-   for(ulong i = to_shift ; i > 0; i--)
-        Elements[(index + i) % size] = Elements[(index + i + 1) % size];
+    for(ulong i = to_shift; i > 0; i--)
+        (*this)[index + i] = (*this)[index + i - 1];
 }
 
 template<typename Data>
 void SetVec<Data>::LeftShift(ulong index, ulong to_shift)
 {
-   for(ulong i = 0 ; i < to_shift; i++)
-        Elements[(index + i + size - 1) % size] = Elements[(index + i) % size]; // CHECK
+    for(ulong i = 0 ; i < to_shift; i++)
+        (*this)[index + i - 1 + size] = (*this)[index + i];
 }
 
 template <typename Data>
@@ -409,9 +409,9 @@ void SetVec<Data>::checkResize()
             capacity = 0;
         }
     
-    if(static_cast<double>(capacity / size) <= 0.25)
-        Resize(size / 2);
-    else if(static_cast<double>(capacity / size) >= 0.9)
+    if(static_cast<double>(capacity) / size <= 0.25 && size > 2)
+        Resize(std::max(size / 2, 2UL));
+    else if(static_cast<double>(capacity) / size >= 0.9)
         Resize(size * 2);
 }
 
