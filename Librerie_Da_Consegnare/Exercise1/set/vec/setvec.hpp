@@ -37,7 +37,7 @@ protected:
 public:
 
   // Default constructor
-  SetVec() : Vector<Data>(2) {}; // ATTENTOOOOOOOOOOOOOOOOOOO
+  SetVec(); // ATTENTOOOOOOOOOOOOOOOOOOO
 
   /* ************************************************************************ */
 
@@ -121,6 +121,8 @@ public:
 
 protected:
   
+  SetVec(ulong);
+
   void RightShift(ulong, ulong);
 
   void LeftShift(ulong, ulong);

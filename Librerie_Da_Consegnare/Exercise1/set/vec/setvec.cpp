@@ -6,6 +6,13 @@ namespace lasd {
 
 /* ---------------------------SetVec: Specific Constructors/Destructors-------------------------- */
 
+template <typename Data>
+SetVec<Data>::SetVec(): Vector<Data>(2)
+{  
+    capacity = size; 
+    size = 0;
+}
+
 // Specific constructors
 template <typename Data>
 SetVec<Data>::SetVec(const TraversableContainer<Data> &cont) : Vector<Data>(cont.Size()) // A set obtained from a TraversableContainer
@@ -258,79 +265,40 @@ template <typename Data>
 bool SetVec<Data>::Insert(const Data &key) // Override DictionaryContainer member (copy of the value)
 {
     checkResize();
-    ulong i = BinarySearch(key);
-    ulong tail = (head + capacity - 1) % size;
-
-    if(i != size && Elements[i] == key)
+    
+    ulong i = BinarySearchEqPred(key);
+    
+    if(i != capacity && (*this)[i] == key)
         return false;
-
-    if(i == size) // Devo inserire in testa prima di head perchè la BS non da risultati di <= 
+    
+    if(i == capacity)    // Devo inserire in testa prima di head (capacity == 0 o pred trovato)
     {
         head = (head == 0) ? size - 1 : head - 1;
-        Elements[head] = key;
+        (*this)[0] = key;
+    }
+    else if (i == capacity - 1) // Devo inserire in coda dopo tail (binary va su capacity - 1)
+    {
+        (*this)[capacity] = key;
     }
     else
     {
-        if(Elements[tail] < key) // Se sto inserendo il massimo allora basta inserire dopo tail 
-            Elements[(tail + 1) % size] = key;
-        else // sto inserendo in mezzo all' array
+        ulong left_elems = i + 1;
+        ulong right_elems = capacity - left_elems;
+
+        if(left_elems >= right_elems)
         {
-            if(head < tail) // Array non wrappato
-            {
-                ulong headSize = i - head + 1;        
-                ulong tailSize = tail - i;
 
-                if((headSize) >= (tailSize))
-                {
-                    RightShift((i+1) % size, tailSize);
-                    Elements[(i+1) % size] = key;
-                }
-                else
-                {
-                    head = (head == 0) ? size - 1 : head - 1;
-                    LeftShift(i, headSize);
-                    Elements[i] = key;
-                }
-            }
-            else    // Array con wrap around
-            {
-                if(i<=tail) // i sta a sinistra
-                {
-                    ulong tailSize = tail - i;            // Elementi tra tail e i
-                    ulong headSize = capacity - tailSize; // Elementi tra i e head
-                   
-                    if((tailSize) >= (headSize))
-                    {
-                        head = (head == 0) ? size - 1 : head - 1;
-                        LeftShift(i, headSize);
-                        Elements[i] = key;
-                    }
-                    else
-                    {
-                        RightShift((i+1) % size, tailSize);
-                        Elements[(i+1) % size] = key;
-                    }
-                }
-                else    // i sta a destra
-                {
-                    ulong headSize = i - head + 1;                   // Elementi tra head e i
-                    ulong tailSize = capacity - headSize;            // Elementi a i e tail
-
-                    if((headSize) >= (tailSize))
-                    {
-                        RightShift((i+1) % size, tailSize);
-                        Elements[(i+1) % size] = key;
-                    }
-                    else
-                    {
-                        head = (head == 0) ? size - 1 : head - 1;
-                        LeftShift(i, headSize);
-                        Elements[i] = key;
-                    }
-                }
-            }
+            RightShift(i + 1, right_elems);
+            (*this)[i + 1] = key;
+        } 
+        else
+        {
+            head = (head == 0) ? size - 1 : head - 1;
+            LeftShift(0, left_elems);
+            (*this)[i] = key;
         }
     }
+
     capacity++;
     return true;
 }
@@ -338,13 +306,54 @@ bool SetVec<Data>::Insert(const Data &key) // Override DictionaryContainer membe
 template <typename Data>
 bool SetVec<Data>::Insert(Data &&key) // Override DictionaryContainer member (move of the value)
 {
+    checkResize();
     
+    ulong i = BinarySearchEqPred(key);
+    
+    if(i != capacity && (*this)[i] == key)
+        return false;
+    
+    if(i == capacity)    // Devo inserire in testa prima di head (capacity == 0 o pred trovato)
+    {
+        head = (head == 0) ? size - 1 : head - 1;
+        (*this)[0] = std::move(key);
+    }
+    else if (i == capacity - 1) // Devo inserire in coda dopo tail (binary va su capacity - 1)
+    {
+        (*this)[capacity] = std::move(key);
+    }
+    else
+    {
+        ulong left_elems = i + 1;
+        ulong right_elems = capacity - left_elems;
+
+        if(left_elems >= right_elems)
+        {
+
+            RightShift(i + 1, right_elems);
+            (*this)[i + 1] = std::move(key);
+        } 
+        else
+        {
+            head = (head == 0) ? size - 1 : head - 1;
+            LeftShift(0, left_elems);
+            (*this)[i] = std::move(key);
+        }
+    }
+
+    capacity++;
+    return true;
 }
 
 template <typename Data>
 bool SetVec<Data>::Remove(const Data &key) // Override DictionaryContainer member
 {
-
+    ulong i = BSearchExists(key);
+    
+    if(i == capacity)
+        return false;
+    
+    return IndexedRemove(i);
 }
 
 /* ---------------------------SetVec: Specific member functions (inherited from LinearContainer)------------------------- */
@@ -394,8 +403,17 @@ void SetVec<Data>::LeftShift(ulong index, ulong to_shift)
 template <typename Data>
 bool SetVec<Data>::IndexedRemove(ulong to_remove) // Quando ho già la posizione
 {
-    
- 
+    ulong left_elems = to_remove;
+    ulong right_elems = capacity - to_remove - 1;
+
+    if(left_elems >= right_elems)
+    {
+
+    }
+    else
+    {
+
+    }
 }
 
 template <typename Data>
@@ -417,10 +435,27 @@ void SetVec<Data>::checkResize()
 
 // From ResizableContainer
 template <typename Data>
-void SetVec<Data>::Resize(ulong)
+void SetVec<Data>::Resize(ulong newSize)
 {
-    
+    Data * resElements = new Data[newSize] {};
 
+    if(newSize > size)
+    {
+        ulong l_spaces = (newSize - size) / 2 - 1; 
+        ulong r_spaces = (newSize - size) / 2 - 1 
+        for(ulong i = 0 + l_spaces; i < newSize - spaces; i++)
+        {
+
+        }
+    }
+    else
+    {
+
+    }
+
+    std::swap(Elements, resElements)
+
+    delete[] resElements;
 }
 
 // Ricerche specializzate per evitare confronti di uguaglianza nelle funzioni 
