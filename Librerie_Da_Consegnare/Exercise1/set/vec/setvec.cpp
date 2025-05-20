@@ -395,33 +395,33 @@ ulong SetVec<Data>::BSearchExists(const Data &key) const // Cerca == Key
 template<typename Data>
 ulong SetVec<Data>::BSearchEqPred(const Data &key) const // Cerca <= key
 {
-    if (capacity == 0)
-        return size;
+    if(capacity == 0)
+        return capacity;
+    
+    ulong i = 0;
+    ulong j = capacity - 1;
+    ulong pred_idx = capacity;
 
-    ulong left = 0;
-    ulong right = (capacity) ? (capacity - 1) : 0;
-    ulong result = size;
-
-    while (left <= right)
+    while(i <= j)
     {
-        ulong mid = left + (right - left) / 2;
-        ulong mapped = (head + mid) % size;
-        if (Elements[mapped] <= key)
-        {
-            result = mid;
-            left = mid + 1;
-        }
+        ulong q = i + (j - i) / 2;
+
+        if((*this)[q] == key)
+            return q; 
+        if((*this)[q] < key)
+            {
+                pred_idx = q;
+                i = q + 1;
+            }
         else
         {
-            if (mid == 0) break;
-            right = mid - 1;
+            if(q==0)
+                break;
+            
+            j = q - 1;
         }
     }
-
-    if (result == size)
-        return size;
-    else
-        return (head + result) % size;
+    return pred_idx;
 }
 
 
