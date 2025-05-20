@@ -37,7 +37,7 @@ protected:
 public:
 
   // Default constructor
-  SetVec(); // ATTENTOOOOOOOOOOOOOOOOOOO
+  SetVec() : SetVec(2); // ATTENTOOOOOOOOOOOOOOOOOOO
 
   /* ************************************************************************ */
 

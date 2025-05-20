@@ -6,16 +6,9 @@ namespace lasd {
 
 /* ---------------------------SetVec: Specific Constructors/Destructors-------------------------- */
 
-template <typename Data>
-SetVec<Data>::SetVec(): Vector<Data>(2)
-{  
-    capacity = size; 
-    size = 0;
-}
-
 // Specific constructors
 template <typename Data>
-SetVec<Data>::SetVec(const TraversableContainer<Data> &cont) : Vector<Data>(cont.Size()) // A set obtained from a TraversableContainer
+SetVec<Data>::SetVec(const TraversableContainer<Data> &cont) : SetVec<Data>(cont.Size()) // A set obtained from a TraversableContainer
 {
     cont.Traverse
     (
@@ -27,7 +20,7 @@ SetVec<Data>::SetVec(const TraversableContainer<Data> &cont) : Vector<Data>(cont
 }
 
 template <typename Data>
-SetVec<Data>::SetVec(MappableContainer<Data> &&cont) noexcept : Vector<Data>(cont.Size()) // A set obtained from a MappableContainer non mette noexcept? 
+SetVec<Data>::SetVec(MappableContainer<Data> &&cont) noexcept : SetVec<Data>(cont.Size()) // A set obtained from a MappableContainer non mette noexcept? 
 {
     cont.Map
     (
@@ -41,11 +34,12 @@ SetVec<Data>::SetVec(MappableContainer<Data> &&cont) noexcept : Vector<Data>(con
 
 // Copy constructor
 template <typename Data>
-SetVec<Data>::SetVec(const SetVec &vec) : Vector<Data>(vec.Size())
+SetVec<Data>::SetVec(const SetVec &vec) : SetVec<Data>(vec.Size())
     {
         this->capacity = vec.capacity;
+        this->size = size;
         this->head = vec.head;
-
+        
         for(ulong i = 0; i < capacity ; i++)
             (*this)[i] = vec[i];
     }
@@ -55,9 +49,9 @@ template <typename Data>
 SetVec<Data>::SetVec(SetVec &&vec) noexcept
 {
     std::swap(this->Elements, vec.Elements);
+    std::swap(this->capacity, vec.capacity);
     std::swap(this->size, vec.size);
     std::swap(this->head, vec.head);
-    std::swap(this->capacity, vec.capacity);
 }
 
 /* ---------------------------SetVec: Assignments-------------------------- */
@@ -79,9 +73,9 @@ template <typename Data>
 SetVec<Data> & SetVec<Data>::operator=(SetVec &&vec) noexcept
 {
     std::swap(this->Elements, vec.Elements);
+    std::swap(this->capacity, vec.capacity);
     std::swap(this->size, vec.size);
     std::swap(this->head, vec.head);
-    std::swap(this->capacity, vec.capacity);
 
     return *this;
 }
@@ -91,9 +85,9 @@ SetVec<Data> & SetVec<Data>::operator=(SetVec &&vec) noexcept
 template <typename Data>
 bool SetVec<Data>::operator==(const SetVec &vec) const noexcept
 {
-    if(this->capacity == vec.capacity)
+    if(this->size == vec.size)
     {
-        for(ulong i = 0; i < this->capacity ; i++)
+        for(ulong i = 0; i < this->size ; i++)
             if( (*this)[i] != vec[i])
                 return false;
         return true;
@@ -112,7 +106,7 @@ inline bool SetVec<Data>::operator!=(const SetVec &vec) const noexcept
 template <typename Data>
 const Data & SetVec<Data>::Min() const // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
-    if(capacity == 0)
+    if(size == 0)
         throw std::length_error("Empty Exception from SetVec\n");
     
     return (*this)[0];
@@ -121,13 +115,13 @@ const Data & SetVec<Data>::Min() const // Override OrderedDictionaryContainer me
 template <typename Data>
 Data SetVec<Data>::MinNRemove() // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
-    if(capacity == 0)
+    if(size == 0)
         throw std::length_error("Empty Exception from SetVec\n");
 
     Data tmpMin = (*this)[0];
 
-    head = (head + 1) % size; 
-    capacity--;
+    head = (head + 1) % capacity; 
+    size--;
 
     checkResize();
     
@@ -137,11 +131,11 @@ Data SetVec<Data>::MinNRemove() // Override OrderedDictionaryContainer member (c
 template <typename Data>
 void SetVec<Data>::RemoveMin() // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
-    if(capacity == 0)
+    if(size == 0)
         throw std::length_error("Empty Exception from SetVec\n");
 
-    head = (head + 1) % size;
-    capacity--;
+    head = (head + 1) % capacity;
+    size--;
    
     checkResize();
 }
@@ -149,24 +143,24 @@ void SetVec<Data>::RemoveMin() // Override OrderedDictionaryContainer member (co
 template <typename Data>
 const Data & SetVec<Data>::Max() const // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
-    if(capacity == 0)
+    if(size == 0)
         throw std::length_error("Empty Exception from SetVec\n");
     
-    return (*this)[capacity - 1];
+    return (*this)[size - 1];
 }
 
 template <typename Data>
 Data SetVec<Data>::MaxNRemove() // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
-    if(capacity == 0)
+    if(size == 0)
         throw std::length_error("Empty Exception from SetVec\n");
 
-    Data tmpMax = (*this)[capacity - 1];
+    Data tmpMax = (*this)[size - 1];
 
-    if(capacity == 1)
+    if(size == 1)
         head = 0;
 
-    capacity--;
+    size--;
     checkResize();
 
     return tmpMax;
@@ -175,13 +169,13 @@ Data SetVec<Data>::MaxNRemove() // Override OrderedDictionaryContainer member (c
 template <typename Data>
 void SetVec<Data>::RemoveMax() // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
-    if(capacity == 0)
+    if(size == 0)
         throw std::length_error("Empty Exception from SetVec\n");
 
-    if(capacity == 1)
+    if(size == 1)
         head = 0;
     
-    capacity--;
+    size--;
     checkResize();
 }
 
@@ -190,7 +184,7 @@ const Data & SetVec<Data>::Predecessor(const Data &key) const // Override Ordere
 {
     ulong index = BSearchPred(key);
 
-    if(index == capacity)
+    if(index == size)
         throw std::length_error("Predecessor Not Found from SetVec");
 
     return (*this)[index];    
@@ -201,7 +195,7 @@ Data SetVec<Data>::PredecessorNRemove(const Data &key) // Override OrderedDictio
 {
     ulong index = BSearchPred(key);
 
-    if(index == capacity)
+    if(index == size)
         throw std::length_error("Predecessor Not Found from SetVec");
 
     Data tmpPred = (*this)[index];
@@ -216,7 +210,7 @@ void SetVec<Data>::RemovePredecessor(const Data &key) // Override OrderedDiction
 {
     ulong index = BSearchPred(key);
 
-    if(index == capacity)
+    if(index == size)
         throw std::length_error("Predecessor Not Found from SetVec");
 
     IndexedRemove(index);
@@ -227,7 +221,7 @@ const Data & SetVec<Data>::Successor(const Data &key) const // Override OrderedD
 {
     ulong index = BSearchSucc(key);
 
-    if(index == capacity)
+    if(index == size)
         throw std::length_error("Predecessor Not Found from SetVec");
 
     return (*this)[index];   
@@ -238,7 +232,7 @@ Data SetVec<Data>::SuccessorNRemove(const Data &key) // Override OrderedDictiona
 {
     ulong index = BSearchSucc(key);
 
-    if(index == capacity)
+    if(index == size)
         throw std::length_error("Predecessor Not Found from SetVec");
 
     Data tmpSucc = (*this)[index];
@@ -253,7 +247,7 @@ void SetVec<Data>::RemoveSuccessor(const Data &key) // Override OrderedDictionar
 {
     ulong index = BSearchSucc(key);
 
-    if(index == capacity)
+    if(index == size)
         throw std::length_error("Predecessor Not Found from SetVec");
 
     IndexedRemove(index);
@@ -268,22 +262,22 @@ bool SetVec<Data>::Insert(const Data &key) // Override DictionaryContainer membe
     
     ulong i = BinarySearchEqPred(key);
     
-    if(i != capacity && (*this)[i] == key)
+    if(i != size && (*this)[i] == key)
         return false;
     
-    if(i == capacity)    // Devo inserire in testa prima di head (capacity == 0 o pred trovato)
+    if(i == size)    // Devo inserire in testa prima di head (size == 0 o pred trovato)
     {
-        head = (head == 0) ? size - 1 : head - 1;
+        head = (head == 0) ? capacity - 1 : head - 1; 
         (*this)[0] = key;
     }
-    else if (i == capacity - 1) // Devo inserire in coda dopo tail (binary va su capacity - 1)
+    else if (i == size - 1) // Devo inserire in coda dopo tail (binary va su size - 1)
     {
-        (*this)[capacity] = key;
+        (*this)[size] = key;
     }
     else
     {
         ulong left_elems = i + 1;
-        ulong right_elems = capacity - left_elems;
+        ulong right_elems = size - left_elems;
 
         if(left_elems >= right_elems)
         {
@@ -293,13 +287,13 @@ bool SetVec<Data>::Insert(const Data &key) // Override DictionaryContainer membe
         } 
         else
         {
-            head = (head == 0) ? size - 1 : head - 1;
+            head = (head == 0) ? capacity - 1 : head - 1;
             LeftShift(0, left_elems);
             (*this)[i] = key;
         }
     }
 
-    capacity++;
+    size++;
     return true;
 }
 
@@ -310,38 +304,38 @@ bool SetVec<Data>::Insert(Data &&key) // Override DictionaryContainer member (mo
     
     ulong i = BinarySearchEqPred(key);
     
-    if(i != capacity && (*this)[i] == key)
+    if(i != size && (*this)[i] == key)
         return false;
     
-    if(i == capacity)    // Devo inserire in testa prima di head (capacity == 0 o pred trovato)
+    if(i == size)    // Devo inserire in testa prima di head (size == 0 o pred trovato)
     {
-        head = (head == 0) ? size - 1 : head - 1;
-        (*this)[0] = std::move(key);
+        head = (head == 0) ? capacity - 1 : head - 1; //???
+        (*this)[0] = std:move(key);
     }
-    else if (i == capacity - 1) // Devo inserire in coda dopo tail (binary va su capacity - 1)
+    else if (i == size - 1) // Devo inserire in coda dopo tail (binary va su size - 1)
     {
-        (*this)[capacity] = std::move(key);
+        (*this)[size] = std:move(key);
     }
     else
     {
         ulong left_elems = i + 1;
-        ulong right_elems = capacity - left_elems;
+        ulong right_elems = size - left_elems;
 
         if(left_elems >= right_elems)
         {
 
             RightShift(i + 1, right_elems);
-            (*this)[i + 1] = std::move(key);
+            (*this)[i + 1] = std:move(key);
         } 
         else
         {
-            head = (head == 0) ? size - 1 : head - 1;
+            head = (head == 0) ? capacity - 1 : head - 1;
             LeftShift(0, left_elems);
-            (*this)[i] = std::move(key);
+            (*this)[i] = std:move(key);
         }
     }
 
-    capacity++;
+    size++;
     return true;
 }
 
@@ -350,7 +344,7 @@ bool SetVec<Data>::Remove(const Data &key) // Override DictionaryContainer membe
 {
     ulong i = BSearchExists(key);
     
-    if(i == capacity)
+    if(i == size)
         return false;
     
     return IndexedRemove(i);
@@ -361,17 +355,17 @@ bool SetVec<Data>::Remove(const Data &key) // Override DictionaryContainer membe
 template <typename Data>
 const Data & SetVec<Data>::operator[](const ulong offset) const
 {
-    if(offset >= capacity)
+    if(offset >= size)
         throw std::out_of_range("Out Of Range Exception from LinearContainer(SetVec) \n");
 
-    return Elements[(head + offset) % size];
+    return Elements[(head + offset) % capacity];
 }
 /* ---------------------------SetVec: Specific member functions (inherited from TestableContainer)------------------------- */
 
 template <typename Data>
 bool SetVec<Data>::Exists(const Data &key) const noexcept
 {
-    return (BSearchExists(key) != capacity);
+    return (BSearchExists(key) != size);
 }
 
 /* ---------------------------SetVec: Specific member functions (inherited from ClearableContainer)------------------------- */
@@ -380,11 +374,20 @@ template <typename Data>
 void SetVec<Data>::Clear()
 {
     Vector<Data>::Clear();
-    capacity = 0;
+    size = 0;
     head = 0;
 }
 
 /* ---------------------------SetVec: Protected auxilary functions------------------------- */
+
+template<typename Data>
+SetVec<Data>::SetVec(ulong newCapacity)
+{
+    Elements = new Data[newCapacity] {};
+    capacity = newCapacity;
+    size = 0;
+    head = 0;
+}
 
 template<typename Data>
 void SetVec<Data>::RightShift(ulong index, ulong to_shift)
@@ -404,7 +407,7 @@ template <typename Data>
 bool SetVec<Data>::IndexedRemove(ulong to_remove) // Quando ho già la posizione
 {
     ulong left_elems = to_remove;
-    ulong right_elems = capacity - to_remove - 1;
+    ulong right_elems = size - to_remove - 1;
 
     if(left_elems >= right_elems)
     {
@@ -422,28 +425,28 @@ void SetVec<Data>::checkResize()
     if(size == 0) // controllare 
         {
             Elements = new Data[2] {};
-            size = 2;
+            capacity = 2;
+            size = 0;
             head = 0;
-            capacity = 0;
         }
     
-    if(static_cast<double>(capacity) / size <= 0.25 && size > 2)
-        Resize(std::max(size / 2, 2UL));
-    else if(static_cast<double>(capacity) / size >= 0.9)
-        Resize(size * 2);
+    if(static_cast<double>(size) / capacity <= 0.25 && capacity > 2)
+        Resize(std::max(capacity / 2, 2UL));
+    else if(static_cast<double>(size) / capacity >= 0.9)
+        Resize(capacity * 2);
 }
 
 // From ResizableContainer
 template <typename Data>
-void SetVec<Data>::Resize(ulong newSize)
+void SetVec<Data>::Resize(ulong newCapacity)
 {
-    Data * resElements = new Data[newSize] {};
+    Data * resElements = new Data[newCapacity] {};
 
-    if(newSize > size)
+    if(newCapacity > size)
     {
-        ulong l_spaces = (newSize - size) / 2 - 1; 
-        ulong r_spaces = (newSize - size) / 2 - 1 
-        for(ulong i = 0 + l_spaces; i < newSize - spaces; i++)
+        ulong l_spaces = (newCapacity - capacity) / 2 - 1; 
+        ulong r_spaces = (newCapacity - capacity) / 2 - 1 
+        for(ulong i = 0 + l_spaces; i < newCapacity - spaces; i++)
         {
 
         }
@@ -463,11 +466,11 @@ void SetVec<Data>::Resize(ulong newSize)
 template <typename Data>
 ulong SetVec<Data>::BSearchExists(const Data &key) const // Cerca == Key
 {
-    if(capacity == 0)
+    if(size == 0)
         throw std::length_error("Empty Exception from SetVec : BSearch\n");
     
     ulong i = 0;
-    ulong j = capacity - 1;
+    ulong j = size - 1;
 
     while(i <= j)
     {
@@ -487,18 +490,18 @@ ulong SetVec<Data>::BSearchExists(const Data &key) const // Cerca == Key
             j = q - 1;
         }
     }
-    return capacity;
+    return size;
 }
 
 template<typename Data>
 ulong SetVec<Data>::BSearchEqPred(const Data &key) const // Cerca <= key
 {
-    if(capacity == 0)
+    if(size == 0)
         throw std::length_error("Empty Exception from SetVec : BSearch\n");
     
     ulong i = 0;
-    ulong j = capacity - 1;
-    ulong pred_idx = capacity;
+    ulong j = size - 1;
+    ulong pred_idx = size;
 
     while(i <= j)
     {
@@ -526,12 +529,12 @@ ulong SetVec<Data>::BSearchEqPred(const Data &key) const // Cerca <= key
 template<typename Data>
 ulong SetVec<Data>::BSearchPred(const Data &key) const
 {
-    if(capacity == 0)
+    if(size == 0)
         throw std::length_error("Empty Exception from SetVec : BSearch\n");
 
     ulong i = 0;
-    ulong j = capacity - 1;
-    ulong pred_idx = capacity;
+    ulong j = size - 1;
+    ulong pred_idx = size;
 
     while (i <= j)
     {
@@ -556,12 +559,12 @@ ulong SetVec<Data>::BSearchPred(const Data &key) const
 template<typename Data>
 ulong SetVec<Data>::BSearchSucc(const Data &key) const
 {
-    if(capacity == 0)
+    if(size == 0)
         throw std::length_error("Empty Exception from SetVec : BSearch\n");
 
     ulong i = 0;
-    ulong j = capacity - 1;
-    ulong succ_idx = capacity;
+    ulong j = size - 1;
+    ulong succ_idx = size;
 
     while (i <= j) 
     {
