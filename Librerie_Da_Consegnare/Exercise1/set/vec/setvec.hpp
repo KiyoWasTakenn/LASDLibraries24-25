@@ -35,9 +35,15 @@ protected:
 
 
 public:
-
+  void stampa()
+  {
+    std::cout<<"Vettore: HEAD: "<< head << " CAPACITY: "<<capacity << " SIZE: " <<size<<std::endl;
+    for(ulong i = 0; i < capacity; i++)
+      std::cout<<Elements[i]<<"\t";
+    std::cout<<std::endl;
+  }
   // Default constructor
-  SetVec() : SetVec(2); // ATTENTOOOOOOOOOOOOOOOOOOO
+  SetVec() : SetVec(2) {} // ATTENTOOOOOOOOOOOOOOOOOOO
 
   /* ************************************************************************ */
 
@@ -127,7 +133,7 @@ protected:
 
   void LeftShift(ulong, ulong);
 
-  bool IndexedRemove(ulong);
+  void IndexedRemove(ulong);
 
   void checkResize();
 
@@ -137,6 +143,9 @@ protected:
   ulong BSearchEqPred(const Data &) const; // Per Insert
   ulong BSearchPred(const Data &) const;
   ulong BSearchSucc(const Data &) const;
+
+  Data & operator[](const ulong) override;
+  
 
 };
 

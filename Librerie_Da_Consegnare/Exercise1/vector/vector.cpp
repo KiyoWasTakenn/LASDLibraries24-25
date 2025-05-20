@@ -147,27 +147,19 @@ inline bool Vector<double>::operator==(const Vector<double> &vec) const noexcept
 template <typename Data>
 Data & Vector<Data>::operator[](const ulong index) // Override MutableLinearContainer member (must throw std::out_of_range when out of range)
 {
-    if(index >= size)
-        throw std::out_of_range("Out Of Range Exception from MutableLinearContainer(Vector) \n");
-    return Elements[index];
+     return const_cast<Data &>(static_cast<const Vector<Data> *> (this)->operator[](index));
 }
 
 template <typename Data>
 Data & Vector<Data>::Front() // Override MutableLinearContainer member (must throw std::length_error when empty)
 {
-    if(size == 0)
-        throw std::length_error("Length Error Exception from MutableLinearContainer(Vector): It is Empty\n"); 
-    
-    return Elements[0];
+     return const_cast<Data &>(static_cast<const Vector<Data> *> (this)->Front());
 }
 
 template <typename Data>
 Data & Vector<Data>::Back()  // Override MutableLinearContainer member (must throw std::length_error when empty)
 {
-    if(size == 0)
-        throw std::length_error("Length Error Exception from MutableLinearContainer(Vector): It is Empty\n");
-    
-    return Elements[size - 1];
+    return const_cast<Data &>(static_cast<const Vector<Data> *> (this)->Back());
 }
 
 /* ---------------------------Vector: Member Functions (Linear) -------------------------- */

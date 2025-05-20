@@ -350,32 +350,19 @@ Data List<Data>::BackNRemove() // (must throw std::length_error when empty)
 template <typename Data>
 Data & List<Data>::operator[](const ulong index) // Override MutableLinearContainer member (must throw std::out_of_range when out of range)
 {
-   if(index >= size)
-         throw std::out_of_range("Out Of Range Exception from List\n");
-    
-    Node * walk_ptr = head; 
-    
-    for(ulong i = 0; i < index; i++, walk_ptr = walk_ptr->next);
-    
-    return walk_ptr->elem;   
+   return const_cast<Data &>(static_cast<const List<Data> *> (this)->operator[](index));
 }
 
 template <typename Data>
 Data & List<Data>::Front() // Override MutableLinearContainer member (must throw std::length_error when empty)
 {
-    if(size == 0)
-        throw std::length_error("Empty Exception from List\n");
-    
-    return head->elem;
+    return const_cast<Data &>(static_cast<const List<Data> *> (this)->Front());
 }
 
 template <typename Data>
 Data & List<Data>::Back() // Override MutableLinearContainer member (must throw std::length_error when empty)
 {
-    if(size == 0)
-        throw std::length_error("Empty Exception from List\n");
-    
-    return tail->elem;
+    return const_cast<Data &>(static_cast<const List<Data> *> (this)->Back());
 }
 
 /* ---------------------------List: Member Functions (Linear) -------------------------- */
