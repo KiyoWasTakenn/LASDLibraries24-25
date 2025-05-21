@@ -36,7 +36,7 @@ SetLst<Data>::SetLst(MappableContainer<Data> &&cont) noexcept // A set obtained 
 template <typename Data>
 SetLst<Data>::SetLst(const SetLst &lst)
 {
-
+    List<Data>::List(lst);
 }
 
 // Move constructor
@@ -48,19 +48,13 @@ SetLst<Data>::SetLst(SetLst &&lst) noexcept
     std::swap(this->size, lst.size);  
 }
 
-template <typename Data>
-SetLst<Data>::~SetLst()
-{
-
-}
-
 /* ---------------------------SetLst: Assignments-------------------------- */
 
 // Copy assignment
 template <typename Data>
 SetLst<Data> & SetLst<Data>::operator=(const SetLst &lst)
 {
-
+    return List<Data>::operator=(lst);
 }
 
 // Move assignment
@@ -94,7 +88,7 @@ template <typename Data>
 const Data & SetLst<Data>::Min() const // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
     if(!head)
-        throw std::lenght_error("Empty Exception from SetList");
+        throw std::length_error("Empty Exception from SetList");
     
     return head->elem;
 }
@@ -103,7 +97,7 @@ template <typename Data>
 Data SetLst<Data>::MinNRemove() // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
     if(!head)
-        throw std::lenght_error("Empty Exception from SetList");
+        throw std::length_error("Empty Exception from SetList");
 
     Data tmpMin = std::move(head->elem);
     RemoveFromFront();
@@ -115,7 +109,7 @@ template <typename Data>
 void SetLst<Data>::RemoveMin() // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
     if(!head)
-        throw std::lenght_error("Empty Exception from SetList");
+        throw std::length_error("Empty Exception from SetList");
     
     RemoveFromFront();
 }
@@ -124,7 +118,7 @@ template <typename Data>
 const Data & SetLst<Data>::Max() const // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
     if(!head)
-        throw std::lenght_error("Empty Exception from SetList");
+        throw std::length_error("Empty Exception from SetList");
     
     return tail->elem;
 }
@@ -133,7 +127,7 @@ template <typename Data>
 Data SetLst<Data>::MaxNRemove() // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
     if(!head)
-        throw std::lenght_error("Empty Exception from SetList");
+        throw std::length_error("Empty Exception from SetList");
     
     Data tmpMax = tail->elem;
 
@@ -146,7 +140,7 @@ template <typename Data>
 void SetLst<Data>::RemoveMax() // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when empty)
 {
     if(!head)
-        throw std::lenght_error("Empty Exception from SetList");
+        throw std::length_error("Empty Exception from SetList");
 
     RemoveFromBack();
 }
@@ -154,7 +148,7 @@ void SetLst<Data>::RemoveMax() // Override OrderedDictionaryContainer member (co
 template <typename Data>
 const Data & SetLst<Data>::Predecessor(const Data &key) const // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
-
+    ulong i = BSearchPred(key);
 }
 
 template <typename Data>
@@ -211,7 +205,7 @@ bool SetLst<Data>::Remove(const Data &key) // Override DictionaryContainer membe
 template <typename Data>
 const Data & SetLst<Data>::operator[](const ulong index) const
 {
-
+    return List<Data>::operator[](index);
 }
 
 /* ---------------------------SetLst: Specific member functions (inherited from TestableContainer)------------------------- */
@@ -219,7 +213,7 @@ const Data & SetLst<Data>::operator[](const ulong index) const
 template <typename Data>
 bool SetLst<Data>::Exists(const Data &key) const noexcept
 {
-
+    
 }
 
 /* ---------------------------SetLst: Specific member functions (inherited from ClearableContainer)------------------------- */
@@ -227,31 +221,39 @@ bool SetLst<Data>::Exists(const Data &key) const noexcept
 template <typename Data>
 void SetLst<Data>::Clear()
 {
-
+    List<Data>::Clear();
 }
 
 /* ---------------------------SetLst: Protected auxilary functions (inherited from)------------------------- */
 
 template <typename Data>
-typename SetLst<Data>::Node * SetLst<Data>::BSearchExists(const Data &key) const
+typename SetLst<Data>::Node*& SetLst<Data>::Reach(Node * ptr, ulong n)
 {
-    return nullptr;
+    
 }
 
-template <typename Data>
-typename SetLst<Data>::Node * SetLst<Data>::BSearchEqPred(const Data &key) const
-{
-
-}
 
 template <typename Data>
-typename SetLst<Data>::Node * SetLst<Data>::BSearchPred(const Data &key) const
+typename SetLst<Data>::Node*& SetLst<Data>::BSearchExists(const Data &key) const
 {
+    
 
 }
 
 template <typename Data>
-typename SetLst<Data>::Node * SetLst<Data>::BSearchPred(const Data &key) const
+typename SetLst<Data>::Node*& SetLst<Data>::BSearchEqPred(const Data &key) const
+{
+
+}
+
+template <typename Data>
+typename SetLst<Data>::Node*& SetLst<Data>::BSearchPred(const Data &key) const
+{
+
+}
+
+template <typename Data>
+typename SetLst<Data>::Node*& SetLst<Data>::BSearchPred(const Data &key) const
 {
 
 }

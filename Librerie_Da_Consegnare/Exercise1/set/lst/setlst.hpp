@@ -26,12 +26,12 @@ private:
 protected:
 
   using Container::size;
-
-  // ...
-
+  using List<Data>::head;
+  using List<Data>::tail;
+  using typename List<Data>::Node;
+  
 public:
 
-  using Node = typename List<Data>::Node;
 
   // Default constructor
   SetLst() = default;
@@ -53,7 +53,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  virtual ~SetLst();
+  virtual ~SetLst() = default;
 
   /* ************************************************************************ */
 
@@ -117,10 +117,12 @@ public:
 
 protected:
 
-  Node * BSearchExists(const Data &) const;
-  Node * BSearchEqPred(const Data &) const;
-  Node * BSearchPred(const Data &) const;
-  Node * BSearchSucc(const Data &) const;
+  Node*& Reach(Node *, ulong);
+
+  Node*& BSearchExists(const Data &) const;
+  Node*& BSearchEqPred(const Data &) const;
+  Node*& BSearchPred(const Data &) const;
+  Node*& BSearchSucc(const Data &) const;
 
 };
 

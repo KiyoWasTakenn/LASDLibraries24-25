@@ -1,4 +1,4 @@
-#include <setvec.hpp>
+//#include <setvec.hpp>
 
 namespace lasd {
 
@@ -30,7 +30,6 @@ SetVec<Data>::SetVec(MappableContainer<Data> &&cont) noexcept : SetVec<Data>(con
         }
     );
 }
-
 
 // Copy constructor
 template <typename Data>
