@@ -31,6 +31,8 @@ protected:
 
 public:
 
+  using Node = typename List<Data>::Node;
+
   // Default constructor
   SetLst() = default;
 
@@ -115,7 +117,10 @@ public:
 
 protected:
 
-
+  Node * BSearchExists(const Data &) const;
+  Node * BSearchEqPred(const Data &) const;
+  Node * BSearchPred(const Data &) const;
+  Node * BSearchSucc(const Data &) const;
 
 };
 

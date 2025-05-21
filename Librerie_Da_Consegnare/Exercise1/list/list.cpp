@@ -106,6 +106,7 @@ List<Data>::List(const List<Data> &lst)
         head = tail = new Node(lst.head->elem);
 
         Node * walk_ptr = lst.head->next;
+        
         while(walk_ptr)
         {
             InsertAtBack(walk_ptr->elem);

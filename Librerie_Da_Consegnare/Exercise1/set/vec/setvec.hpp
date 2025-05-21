@@ -35,13 +35,7 @@ protected:
 
 
 public:
-  void stampa()
-  {
-    std::cout<<"Vettore: HEAD: "<< head << " CAPACITY: "<<capacity << " SIZE: " <<size<<std::endl;
-    for(ulong i = 0; i < capacity; i++)
-      std::cout<<Elements[i]<<"\t";
-    std::cout<<std::endl;
-  }
+  
   // Default constructor
   SetVec() : SetVec(2) {} // ATTENTOOOOOOOOOOOOOOOOOOO
 

@@ -147,13 +147,12 @@ void stestSetInt(uint & testnum, uint & testerr) {
     lasd::SetVec<int> setvec1(setvec);
 
     EqualSetVec(loctestnum, loctesterr, setvec, setvec1, true);
-    setvec1.stampa();
+
     Remove(loctestnum, loctesterr, setvec1, true, 4);
-    setvec1.stampa();
     NonEqualSetVec(loctestnum, loctesterr, setvec, setvec1, true);
-    setvec1.stampa();
+
     InsertC(loctestnum, loctesterr, setvec1, true, 4);
-    setvec1.stampa();
+
     EqualSetVec(loctestnum, loctesterr, setvec, setvec1, true);
 
     lasd::SetVec<int> setvec2 = setvec1;
