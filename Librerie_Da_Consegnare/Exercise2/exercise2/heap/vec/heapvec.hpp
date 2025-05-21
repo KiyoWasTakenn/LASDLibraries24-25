@@ -14,9 +14,10 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class HeapVec {
+class HeapVec : virtual public Heap<Data>
+                protected SortableVector<Data>{
   // Must extend Heap<Data>,
-  // Could extend SortableVector<Data>
+  // Could extend SortableVector<Data> NON VIRTUALE ALTRIMENTI NON FUNZIONA PQHEAP
 
 private:
 
@@ -70,9 +71,9 @@ public:
 
   // Specific member functions (inherited from Heap)
 
-  // ! type IsHeap(argument) specifiers; // Override Heap member CICLO CON LA FUNZIONE AUSILIARIA CHE TESTA SE TRA I TRE INDICI IL MASSIMO STA IN HTESTA
+  // ! bool IsHeap(argument) const noexcept override; // Override Heap member CICLO CON LA FUNZIONE AUSILIARIA CHE TESTA SE TRA I TRE INDICI IL MASSIMO STA IN HTESTA
 
-  // ! type Heapify(argument) specifiers; // Override Heap member CHIAMERA FOR DALL ULTIMO PADRE A 0 E CHIAMIAMO HEAPIFY PROTECTED HA UNA SIZE INTEGRATA non so se questa o l'altra
+  // ! type Heapify(argument) override; // Override Heap member CHIAMERA FOR DALL ULTIMO PADRE A 0 E CHIAMIAMO HEAPIFY PROTECTED HA UNA SIZE INTEGRATA non so se questa o l'altra
 
   /* ************************************************************************ */
 

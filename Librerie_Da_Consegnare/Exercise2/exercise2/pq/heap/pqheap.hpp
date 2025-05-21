@@ -14,7 +14,8 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class PQHeap {
+class PQHeap : virtual public PQ<Data>
+               virtual protected HeapVec<Data> {
   // Must extend PQ<Data>,
   // Could extend HeapVec<Data>
 
@@ -36,7 +37,11 @@ public:
   /* ************************************************************************ */
 
   // Specific constructors
-  // PQHeap(argument) specifiers; // A priority queue obtained from a TraversableContainer
+  // PQHeap(argument) specifiers; // ! A priority queue obtained from a TraversableContainer PUNTO CHE SEMBRA UNA SCEMENZA MA è DELICATO, 
+  // ! SI POTREBBE PENSARE DI CHIAMARE SEMPLICEMENTE IL COSTRUTTORE DI HEAPVEC, MA IL COSTRUTTORE DI HEAPVEC NON FA LE COSE PER BENE SE NON METTIAMO 
+  // ! L'EREDITà IN MODO NON VIRTUALE IN HEAPVEC DA SORTABLEVECTOR<DATA>. NEL MOMENTO IN CUI è INCAPSULATO, PQHEAP QUANDO ANDRA AD ESTENDERE HEAPVEC 
+  // ! AVRA ALL'INTERNO VECTOR. SE INVECE LO DICHIARIAMO VIRTUAL NON SARà HEAPVEC CHE SE NE ACCORGERà, NON CHIAMA I COSTRUTTORI. SE NON CHIAMASSI VIRTUALE DOVREI FARE A(CONT)B(CONT)
+
   // PQHeap(argument) specifiers; // A priority queue obtained from a MappableContainer
 
   /* ************************************************************************ */
@@ -64,15 +69,15 @@ public:
 
   // Specific member functions (inherited from PQ)
 
-  // type Tip(argument) specifiers; // Override PQ member (must throw std::length_error when empty)
-  // type RemoveTip(argument) specifiers; // Override PQ member (must throw std::length_error when empty)
-  // type TipNRemove(argument) specifiers; // Override PQ member (must throw std::length_error when empty)
+  // type Tip(argument) override; // Override PQ member (must throw std::length_error when empty)
+  // type RemoveTip(argument) override; // Override PQ member (must throw std::length_error when empty)
+  // type TipNRemove(argument) override; // Override PQ member (must throw std::length_error when empty)
 
-  // type Insert(argument) specifiers; // Override PQ member (Copy of the value)
-  // type Insert(argument) specifiers; // Override PQ member (Move of the value)
+  // type Insert(argument) override; // Override PQ member (Copy of the value)
+  // type Insert(argument) override; // Override PQ member (Move of the value)
 
-  // type Change(argument) specifiers; // Override PQ member (Copy of the value)
-  // type Change(argument) specifiers; // Override PQ member (Move of the value)
+  // type Change(argument) override; // Override PQ member (Copy of the value)
+  // type Change(argument) override; // Override PQ member (Move of the value)
 
 protected:
 

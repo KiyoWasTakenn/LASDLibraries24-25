@@ -13,7 +13,8 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class PQ {
+class PQ : virtual public LinearContainer<Data>,
+           virtual public ClearableContainer {
   // Must extend LinearContainer<Data>,
   //             ClearableContainer
 
@@ -24,29 +25,33 @@ protected:
 public:
 
   // Destructor
-  // ~PQ() specifiers
+  virtual ~PQ() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument); // Copy assignment of abstract types is not possible.
+  PQ & operator=(const PQ &) = delete; // Copy assignment of abstract types is not possible.
 
   // Move assignment
-  // type operator=(argument); // Move assignment of abstract types is not possible.
+  PQ & operator=(PQ &&) noexcept = delete; // Move assignment of abstract types is not possible.
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  // type Tip(argument) specifiers; // (concrete function must throw std::length_error when empty)
-  // type RemoveTip(argument) specifiers; // (concrete function must throw std::length_error when empty)
-  // type TipNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
+  inline const Data & Tip() const
+  {
+    Front()
+  } // (concrete function must throw std::length_error when empty)
 
-  // type Insert(argument) specifiers; // Copy of the value
-  // type Insert(argument) specifiers; // Move of the value
+  void RemoveTip() = 0; // (concrete function must throw std::length_error when empty)
+  const Data &  TipNRemove() = 0; // (concrete function must throw std::length_error when empty)
 
-  // type Change(argument) specifiers; // Copy of the value
-  // type Change(argument) specifiers; // Copy of the value
+  void Insert(const Data &) = 0; // Copy of the value
+  void Insert(Data &&) = 0; // Move of the value
+
+  void Change(ulong, const Data &) = 0; // Copy of the value
+  void Change(ulong, Data &&) = 0; //  Move of the value
 
 };
 

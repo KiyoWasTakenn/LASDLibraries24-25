@@ -13,7 +13,8 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class Heap {
+class Heap : virtual public SortableLinearContainer<Data>,
+             virtual public ClearableContainer{
   // Must extend SortableLinearContainer<Data>,
   //             ClearableContainer
 
