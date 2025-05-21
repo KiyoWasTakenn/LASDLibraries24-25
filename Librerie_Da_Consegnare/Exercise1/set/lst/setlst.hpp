@@ -117,7 +117,7 @@ public:
 
 protected:
 
-  Node*& Reach(Node *, ulong);
+  Node*& Reach(Node *, const ulong);
 
   Node*& BSearchExists(const Data &) const;
   Node*& BSearchEqPred(const Data &) const;

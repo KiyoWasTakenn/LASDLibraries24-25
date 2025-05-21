@@ -148,37 +148,53 @@ void SetLst<Data>::RemoveMax() // Override OrderedDictionaryContainer member (co
 template <typename Data>
 const Data & SetLst<Data>::Predecessor(const Data &key) const // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
-    ulong i = BSearchPred(key);
+    if()
+        throw std::length_error("Predecessor not found: SetLst");
 }
 
 template <typename Data>
 Data SetLst<Data>::PredecessorNRemove(const Data &key) // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
+    if()
+        throw std::length_error("Predecessor not found: SetLst");
+
     
 }
 
 template <typename Data>
 void SetLst<Data>::RemovePredecessor(const Data &key) // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
+    if()
+        throw std::length_error("Predecessor not found: SetLst");
 
+    
 }
 
 template <typename Data>
 const Data & SetLst<Data>::Successor(const Data &key) const // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
+    if()
+        throw std::length_error("Successor not found: SetLst");
 
+    
 }
 
 template <typename Data>
 Data SetLst<Data>::SuccessorNRemove(const Data &key) // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
+    if()
+        throw std::length_error("Successor not found: SetLst");
 
+    
 }
 
 template <typename Data>
 void SetLst<Data>::RemoveSuccessor(const Data &key) // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
+    if()
+        throw std::length_error("Successor not found: SetLst");
 
+    
 }
 /* ---------------------------SetLst: Specific member functions (inherited from DictionaryContainer)------------------------- */
 
@@ -227,8 +243,14 @@ void SetLst<Data>::Clear()
 /* ---------------------------SetLst: Protected auxilary functions (inherited from)------------------------- */
 
 template <typename Data>
-typename SetLst<Data>::Node*& SetLst<Data>::Reach(Node * ptr, ulong n)
+typename SetLst<Data>::Node*& SetLst<Data>::Reach(Node * ptr, const ulong n)
 {
+    if(!ptr)
+        
+
+    Node **walk_ptr = &ptr;
+    
+    ()
 
 }
 
