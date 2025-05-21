@@ -154,7 +154,7 @@ const Data & SetLst<Data>::Predecessor(const Data &key) const // Override Ordere
 template <typename Data>
 Data SetLst<Data>::PredecessorNRemove(const Data &key) // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
-
+    
 }
 
 template <typename Data>
@@ -229,7 +229,7 @@ void SetLst<Data>::Clear()
 template <typename Data>
 typename SetLst<Data>::Node*& SetLst<Data>::Reach(Node * ptr, ulong n)
 {
-    
+
 }
 
 
