@@ -26,9 +26,9 @@ private:
 protected:
 
   using Container::size;
+  using typename List<Data>::Node;
   using List<Data>::head;
   using List<Data>::tail;
-  using typename List<Data>::Node;
   
 public:
 
@@ -117,12 +117,9 @@ public:
 
 protected:
 
-  Node*& Reach(Node *, const ulong);
-
-  Node*& BSearchExists(const Data &) const;
-  Node*& BSearchEqPred(const Data &) const;
-  Node*& BSearchPred(const Data &) const;
-  Node*& BSearchSucc(const Data &) const;
+  Node* BSearchEqPred(const Data &, bool *) const;
+  Node* BSearchPred(const Data &, bool *) const;
+  Node* BSearchSucc(const Data &) const;
 
 };
 

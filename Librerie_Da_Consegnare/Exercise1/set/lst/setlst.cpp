@@ -31,13 +31,9 @@ SetLst<Data>::SetLst(MappableContainer<Data> &&cont) noexcept // A set obtained 
     );
 }
 
-
 // Copy constructor
 template <typename Data>
-SetLst<Data>::SetLst(const SetLst &lst)
-{
-    List<Data>::List(lst);
-}
+SetLst<Data>::SetLst(const SetLst &lst) : List<Data>::List(lst) { }
 
 // Move constructor
 template <typename Data>
@@ -54,7 +50,8 @@ SetLst<Data>::SetLst(SetLst &&lst) noexcept
 template <typename Data>
 SetLst<Data> & SetLst<Data>::operator=(const SetLst &lst)
 {
-    return List<Data>::operator=(lst);
+    List<Data>::operator=(lst);
+    return *this;
 }
 
 // Move assignment
@@ -73,7 +70,7 @@ SetLst<Data> & SetLst<Data>::operator=(SetLst &&lst) noexcept
 template <typename Data>
 bool SetLst<Data>::operator==(const SetLst &lst) const noexcept
 {
-    return List<Data>operator==(lst);
+    return List<Data>::operator==(lst);
 }
 
 template <typename Data>
@@ -100,7 +97,7 @@ Data SetLst<Data>::MinNRemove() // Override OrderedDictionaryContainer member (c
         throw std::length_error("Empty Exception from SetList");
 
     Data tmpMin = std::move(head->elem);
-    RemoveFromFront();
+    List<Data>::RemoveFromFront();
 
     return tmpMin;
 }
@@ -111,7 +108,7 @@ void SetLst<Data>::RemoveMin() // Override OrderedDictionaryContainer member (co
     if(!head)
         throw std::length_error("Empty Exception from SetList");
     
-    RemoveFromFront();
+    List<Data>::RemoveFromFront();
 }
 
 template <typename Data>
@@ -131,7 +128,7 @@ Data SetLst<Data>::MaxNRemove() // Override OrderedDictionaryContainer member (c
     
     Data tmpMax = tail->elem;
 
-    RemoveFromBack();
+    List<Data>::RemoveFromBack();
 
     return tmpMax;
 }
@@ -142,20 +139,28 @@ void SetLst<Data>::RemoveMax() // Override OrderedDictionaryContainer member (co
     if(!head)
         throw std::length_error("Empty Exception from SetList");
 
-    RemoveFromBack();
+    List<Data>::RemoveFromBack();
 }
 
 template <typename Data>
 const Data & SetLst<Data>::Predecessor(const Data &key) const // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
-    if()
+    bool check = false;
+    Node * prev = BSearchPred(key, &check);
+
+    if(!prev)
         throw std::length_error("Predecessor not found: SetLst");
+    
+    return prev->elem;
 }
 
 template <typename Data>
 Data SetLst<Data>::PredecessorNRemove(const Data &key) // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
-    if()
+
+
+
+    if(0)
         throw std::length_error("Predecessor not found: SetLst");
 
     
@@ -164,7 +169,12 @@ Data SetLst<Data>::PredecessorNRemove(const Data &key) // Override OrderedDictio
 template <typename Data>
 void SetLst<Data>::RemovePredecessor(const Data &key) // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
-    if()
+    
+    
+    
+    
+    
+    if(0)
         throw std::length_error("Predecessor not found: SetLst");
 
     
@@ -173,16 +183,20 @@ void SetLst<Data>::RemovePredecessor(const Data &key) // Override OrderedDiction
 template <typename Data>
 const Data & SetLst<Data>::Successor(const Data &key) const // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
-    if()
+    Node * succ = BSearchSucc(key);
+    if(!succ)
         throw std::length_error("Successor not found: SetLst");
 
-    
+    return succ->elem;
 }
 
 template <typename Data>
 Data SetLst<Data>::SuccessorNRemove(const Data &key) // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
-    if()
+    
+    
+    
+    if(0)
         throw std::length_error("Successor not found: SetLst");
 
     
@@ -191,7 +205,9 @@ Data SetLst<Data>::SuccessorNRemove(const Data &key) // Override OrderedDictiona
 template <typename Data>
 void SetLst<Data>::RemoveSuccessor(const Data &key) // Override OrderedDictionaryContainer member (concrete function must throw std::length_error when not found)
 {
-    if()
+
+
+    if(0)
         throw std::length_error("Successor not found: SetLst");
 
     
@@ -201,19 +217,98 @@ void SetLst<Data>::RemoveSuccessor(const Data &key) // Override OrderedDictionar
 template <typename Data>
 bool SetLst<Data>::Insert(const Data &key) // Override DictionaryContainer member (copy of the value)
 {
+    if(size == 0)
+        List<Data>::InsertAtFront(key);
+    else
+    {
+        bool check = false;
+        Node * prev = BSearchEqPred(key, &check);
 
+        if(check)
+            return false;
+        else
+        {
+            if(!prev)
+                List<Data>::InsertAtFront(key);
+            else
+                {
+                    Node * tmp = new Node(key);
+
+                    tmp->next = prev->next;
+                    prev->next = tmp;
+                    
+                    if(!tmp->next)
+                        tail = tmp;
+
+                    size++;
+                }
+        }
+    }
+    return true;
 }
 
 template <typename Data>
 bool SetLst<Data>::Insert(Data &&key) // Override DictionaryContainer member (move of the value)
 {
+    if(size == 0)
+        List<Data>::InsertAtFront(key);
+    else
+    {
+        bool check = false;
+        Node * pred = BSearchEqPred(key, &check);
 
+        if(check)
+            return false;
+        else
+        {
+            if(!pred)
+                List<Data>::InsertAtFront(key);
+            else
+                {
+                    Node * tmp = new Node(std::move(key));
+
+                    tmp->next = pred->next;
+                    pred->next = tmp;
+                    
+                    if(!tmp->next)
+                        tail = tmp;
+
+                    size++;
+                }
+        }
+    }
+    return true;
 }
 
 template <typename Data>
 bool SetLst<Data>::Remove(const Data &key) // Override DictionaryContainer member
 {
+    if(size != 0)
+    {
+        bool check = false;
+        Node * pred = BSearchPred(key, &check);
 
+        if(check)
+        {
+            if(!pred)
+                List<Data>::RemoveFromFront();
+            else
+            {
+                Node * tmp = pred->next;
+                pred->next = tmp->next;
+
+                if(!tmp->next)
+                    tail = pred;
+                else
+                    tmp->next = nullptr;
+
+                delete tmp;
+                size--;
+            }
+            return true;
+        }
+    }
+    return false;
 }
 
 /* ---------------------------SetLst: Specific member functions (inherited from LinearContainer)------------------------- */
@@ -229,8 +324,12 @@ const Data & SetLst<Data>::operator[](const ulong index) const
 template <typename Data>
 bool SetLst<Data>::Exists(const Data &key) const noexcept
 {
-    
-}
+    bool check = false;
+
+    BSearchEqPred(key, &check);
+
+    return check;
+} 
 
 /* ---------------------------SetLst: Specific member functions (inherited from ClearableContainer)------------------------- */
 
@@ -243,42 +342,114 @@ void SetLst<Data>::Clear()
 /* ---------------------------SetLst: Protected auxilary functions (inherited from)------------------------- */
 
 template <typename Data>
-typename SetLst<Data>::Node*& SetLst<Data>::Reach(Node * ptr, const ulong n)
+typename SetLst<Data>::Node* SetLst<Data>::BSearchEqPred(const Data &key, bool * check) const
 {
-    if(!ptr)
-        
+    ulong length = size;
 
-    Node **walk_ptr = &ptr;
-    
-    ()
+    Node * reminder = head;
+    Node * pred = nullptr;
 
-}
+    while(length > 0)
+    {
+       ulong mid = length/2;
+       Node * walk_ptr = reminder;
 
+       for(ulong i = 0; i < mid; i++)
+            walk_ptr = walk_ptr->next;
+
+       if(!walk_ptr) 
+            break;
+
+       if(walk_ptr->elem < key)
+       {
+            pred = walk_ptr;
+            reminder = walk_ptr->next;
+            length -= mid+1;
+       }
+       else if(walk_ptr->elem > key)
+       {
+            length = mid;
+       }
+       else 
+       {
+            *check = true;
+            return walk_ptr;
+       }  
+    }
+    return pred;
+} 
 
 template <typename Data>
-typename SetLst<Data>::Node*& SetLst<Data>::BSearchExists(const Data &key) const
+typename SetLst<Data>::Node* SetLst<Data>::BSearchPred(const Data &key, bool * check) const
 {
-    
+    ulong length = size;
 
-}
+    Node * reminder = head;
+    Node * pred = nullptr;
+
+    while(length > 0)
+    {
+       ulong mid = length/2;
+       Node * walk_ptr = reminder;
+
+       for(ulong i = 0; i < mid; i++)
+            walk_ptr = walk_ptr->next;
+
+       if(!walk_ptr) 
+            break;
+
+       if(walk_ptr->elem < key)
+       {
+            pred = walk_ptr;
+            reminder = walk_ptr->next;
+            length -= mid+1;
+       }
+       else if(walk_ptr->elem > key)
+       {
+            length = mid;
+       }
+       else 
+       {
+            *check = true;
+            return pred;
+       }  
+    }
+    return pred;
+} 
 
 template <typename Data>
-typename SetLst<Data>::Node*& SetLst<Data>::BSearchEqPred(const Data &key) const
+typename SetLst<Data>::Node* SetLst<Data>::BSearchSucc(const Data &key) const
 {
+    ulong length = size;
 
-}
+    Node * reminder = head;
+    Node * succ = nullptr;
 
-template <typename Data>
-typename SetLst<Data>::Node*& SetLst<Data>::BSearchPred(const Data &key) const
-{
+    while(length > 0)
+    {
+       ulong mid = length/2;
+       Node * walk_ptr = reminder;
 
-}
+       for(ulong i = 0; i < mid; i++)
+            walk_ptr = walk_ptr->next;
 
-template <typename Data>
-typename SetLst<Data>::Node*& SetLst<Data>::BSearchPred(const Data &key) const
-{
+       if(!walk_ptr) 
+            break;
 
-}
+       if(walk_ptr->elem > key)
+       {
+            succ = walk_ptr;
+            length = mid;
+       }
+       else
+       {
+            reminder = walk_ptr->next;
+            length -= mid+1;
+       }
+       
+    }
+    return succ;
+} 
 
 /* ************************************************************************** */
 

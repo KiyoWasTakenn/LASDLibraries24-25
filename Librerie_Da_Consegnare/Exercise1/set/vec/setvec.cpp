@@ -338,7 +338,7 @@ bool SetVec<Data>::Insert(Data &&key) // Override DictionaryContainer member (mo
 
 template <typename Data>
 bool SetVec<Data>::Remove(const Data &key) // Override DictionaryContainer member
-{
+{   
     ulong i = BSearchExists(key);
     
     if(i == size)

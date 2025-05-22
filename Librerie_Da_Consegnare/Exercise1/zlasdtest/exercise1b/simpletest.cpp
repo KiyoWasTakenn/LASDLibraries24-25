@@ -135,9 +135,9 @@ void stestSetInt(uint & testnum, uint & testerr) {
     cout << endl << "Begin of SetVec<int> Test:" << endl;
     lasd::SetVec<int> setvec(vec);
     stestSetInt(setvec, loctestnum, loctesterr);
-    // cout << endl << "Begin of SetLst<int> Test:" << endl;
-    // lasd::SetLst<int> setlst(vec);
-    // stestSetInt(setlst, loctestnum, loctesterr);
+    cout << endl << "Begin of SetLst<int> Test:" << endl;
+    lasd::SetLst<int> setlst(vec);
+    stestSetInt(setlst, loctestnum, loctesterr);
     cout << "\n";
 
     /* ********************************************************************** */
@@ -190,56 +190,56 @@ void stestSetInt(uint & testnum, uint & testerr) {
 
     /* ********************************************************************** */
 
-    // setlst.InsertAll(vec);
-    // lasd::SetLst<int> setlst1(setlst);
+    setlst.InsertAll(vec);
+    lasd::SetLst<int> setlst1(setlst);
 
-    // EqualSetLst(loctestnum, loctesterr, setlst, setlst1, true);
+    EqualSetLst(loctestnum, loctesterr, setlst, setlst1, true);
 
-    // Remove(loctestnum, loctesterr, setlst1, true, 4);
+    Remove(loctestnum, loctesterr, setlst1, true, 4);
 
-    // NonEqualSetLst(loctestnum, loctesterr, setlst, setlst1, true);
+    NonEqualSetLst(loctestnum, loctesterr, setlst, setlst1, true);
 
-    // InsertC(loctestnum, loctesterr, setlst1, true, 4);
+    InsertC(loctestnum, loctesterr, setlst1, true, 4);
 
-    // EqualSetLst(loctestnum, loctesterr, setlst, setlst1, true);
+    EqualSetLst(loctestnum, loctesterr, setlst, setlst1, true);
 
-    // lasd::SetLst<int> setlst2 = setlst1;
+    lasd::SetLst<int> setlst2 = setlst1;
 
-    // EqualSetLst(loctestnum, loctesterr, setlst1, setlst2, true);
+    EqualSetLst(loctestnum, loctesterr, setlst1, setlst2, true);
 
-    // RemovePredecessor(loctestnum, loctesterr, setlst1, true, 9);
+    RemovePredecessor(loctestnum, loctesterr, setlst1, true, 9);
 
-    // EqualSetLst(loctestnum, loctesterr, setlst1, setlst2, false);
+    EqualSetLst(loctestnum, loctesterr, setlst1, setlst2, false);
 
-    // lasd::SetLst<int> setlst3(move(setlst2));
+    lasd::SetLst<int> setlst3(move(setlst2));
 
-    // Empty(loctestnum, loctesterr, setlst2, true);
-    // Size(loctestnum, loctesterr, setlst2, true, 0);
+    Empty(loctestnum, loctesterr, setlst2, true);
+    Size(loctestnum, loctesterr, setlst2, true, 0);
 
-    // Empty(loctestnum, loctesterr, setlst3, false);
-    // Size(loctestnum, loctesterr, setlst3, true, 7);
+    Empty(loctestnum, loctesterr, setlst3, false);
+    Size(loctestnum, loctesterr, setlst3, true, 7);
 
-    // setlst2 = move(setlst1);
+    setlst2 = move(setlst1);
 
-    // Empty(loctestnum, loctesterr, setlst1, true);
-    // Size(loctestnum, loctesterr, setlst1, true, 0);
+    Empty(loctestnum, loctesterr, setlst1, true);
+    Size(loctestnum, loctesterr, setlst1, true, 0);
 
-    // Empty(loctestnum, loctesterr, setlst2, false);
-    // Size(loctestnum, loctesterr, setlst2, true, 6);
+    Empty(loctestnum, loctesterr, setlst2, false);
+    Size(loctestnum, loctesterr, setlst2, true, 6);
 
-    // NonEqualSetLst(loctestnum, loctesterr, setlst3, setlst2, true);
+    NonEqualSetLst(loctestnum, loctesterr, setlst3, setlst2, true);
 
-    // Traverse(loctestnum, loctesterr, setlst2, true, &TraversePrint<int>);
-    // Traverse(loctestnum, loctesterr, setlst3, true, &TraversePrint<int>);
+    Traverse(loctestnum, loctesterr, setlst2, true, &TraversePrint<int>);
+    Traverse(loctestnum, loctesterr, setlst3, true, &TraversePrint<int>);
 
-    // InsertC(loctestnum, loctesterr, setlst2, true, 6);
+    InsertC(loctestnum, loctesterr, setlst2, true, 6);
 
-    // EqualSetLst(loctestnum, loctesterr, setlst3, setlst2, true);
+    EqualSetLst(loctestnum, loctesterr, setlst3, setlst2, true);
 
     /* ********************************************************************** */
 
-    // EqualLinear(loctestnum, loctesterr, setvec3, setlst2, true);
-    // NonEqualLinear(loctestnum, loctesterr, setlst3, setvec2, false);
+    EqualLinear(loctestnum, loctesterr, setvec3, setlst2, true);
+    NonEqualLinear(loctestnum, loctesterr, setlst3, setvec2, false);
 
   }
   catch (...) {
@@ -303,45 +303,45 @@ void stestSetFloat(uint & testnum, uint & testerr) {
 
     // /* ********************************************************************** */
 
-    // lasd::SetLst<double> setlst1(lst);
+    lasd::SetLst<double> setlst1(lst);
 
-    // Empty(loctestnum, loctesterr, setlst1, false);
-    // Size(loctestnum, loctesterr, setlst1, true, 6);
+    Empty(loctestnum, loctesterr, setlst1, false);
+    Size(loctestnum, loctesterr, setlst1, true, 6);
 
-    // TraversePreOrder(loctestnum, loctesterr, setlst1, true, &TraversePrint<double>);
-    // TraversePostOrder(loctestnum, loctesterr, setlst1, true, &TraversePrint<double>);
+    TraversePreOrder(loctestnum, loctesterr, setlst1, true, &TraversePrint<double>);
+    TraversePostOrder(loctestnum, loctesterr, setlst1, true, &TraversePrint<double>);
 
-    // lasd::SetLst<double> setlst2;
+    lasd::SetLst<double> setlst2;
 
-    // InsertC(loctestnum, loctesterr, setlst2, true, 2.1);
-    // InsertC(loctestnum, loctesterr, setlst2, true, 0.4);
-    // InsertC(loctestnum, loctesterr, setlst2, true, 1.2);
-    // InsertC(loctestnum, loctesterr, setlst2, true, 3.5);
-    // InsertC(loctestnum, loctesterr, setlst2, true, 5.3);
-    // InsertC(loctestnum, loctesterr, setlst2, true, 4.0);
+    InsertC(loctestnum, loctesterr, setlst2, true, 2.1);
+    InsertC(loctestnum, loctesterr, setlst2, true, 0.4);
+    InsertC(loctestnum, loctesterr, setlst2, true, 1.2);
+    InsertC(loctestnum, loctesterr, setlst2, true, 3.5);
+    InsertC(loctestnum, loctesterr, setlst2, true, 5.3);
+    InsertC(loctestnum, loctesterr, setlst2, true, 4.0);
 
 
-    // EqualSetLst(loctestnum, loctesterr, setlst1, setlst2, true);
-    // NonEqualSetLst(loctestnum, loctesterr, setlst1, setlst2, false);
+    EqualSetLst(loctestnum, loctesterr, setlst1, setlst2, true);
+    NonEqualSetLst(loctestnum, loctesterr, setlst1, setlst2, false);
 
-    // setlst1.Clear();
-    // setlst2.Clear();
+    setlst1.Clear();
+    setlst2.Clear();
 
-    // InsertC(loctestnum, loctesterr, setlst1, true, 0.2);
-    // InsertC(loctestnum, loctesterr, setlst1, true, 1.1);
-    // InsertC(loctestnum, loctesterr, setlst1, true, 2.1);
+    InsertC(loctestnum, loctesterr, setlst1, true, 0.2);
+    InsertC(loctestnum, loctesterr, setlst1, true, 1.1);
+    InsertC(loctestnum, loctesterr, setlst1, true, 2.1);
 
-    // InsertC(loctestnum, loctesterr, setlst2, true, 2.1);
-    // InsertC(loctestnum, loctesterr, setlst2, true, 1.1);
-    // InsertC(loctestnum, loctesterr, setlst2, true, 0.2);
+    InsertC(loctestnum, loctesterr, setlst2, true, 2.1);
+    InsertC(loctestnum, loctesterr, setlst2, true, 1.1);
+    InsertC(loctestnum, loctesterr, setlst2, true, 0.2);
 
-    // EqualSetLst(loctestnum, loctesterr, setlst1, setlst2, true);
-    // NonEqualSetLst(loctestnum, loctesterr, setlst1, setlst2, false);
+    EqualSetLst(loctestnum, loctesterr, setlst1, setlst2, true);
+    NonEqualSetLst(loctestnum, loctesterr, setlst1, setlst2, false);
 
     /* ********************************************************************** */
 
-    // EqualLinear(loctestnum, loctesterr, setvec1, setlst2, true);
-    // NonEqualLinear(loctestnum, loctesterr, setlst2, setvec2, false);
+    EqualLinear(loctestnum, loctesterr, setvec1, setlst2, true);
+    NonEqualLinear(loctestnum, loctesterr, setlst2, setvec2, false);
 
   }
   catch (...) {
@@ -385,9 +385,9 @@ void stestSetString(uint & testnum, uint & testerr) {
     cout << endl << "Begin of SetVec<string> Test:" << endl;
     lasd::SetVec<string> setvec(vec);
     stestSetString(setvec, loctestnum, loctesterr);
-    // cout << endl << "Begin of SetLst<string> Test:" << endl;
-    // lasd::SetLst<string> setlst(vec);
-    // stestSetString(setlst, loctestnum, loctesterr);
+    cout << endl << "Begin of SetLst<string> Test:" << endl;
+    lasd::SetLst<string> setlst(vec);
+    stestSetString(setlst, loctestnum, loctesterr);
     cout << "\n";
 
     /* ********************************************************************** */
