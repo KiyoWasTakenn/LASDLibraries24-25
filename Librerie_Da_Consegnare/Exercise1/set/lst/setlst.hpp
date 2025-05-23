@@ -31,7 +31,15 @@ protected:
   using List<Data>::tail;
   
 public:
-
+   void stampa_info(){
+    std::cout << std::endl << "Lista: " << std::endl;
+    Node* tmp = head;
+    while(tmp != nullptr){
+      std::cout << tmp->elem << "-> ";
+      tmp = tmp->next;
+    }
+    std::cout << std::endl << "Size: " << size << std::endl;
+  }              
 
   // Default constructor
   SetLst() = default;
@@ -119,7 +127,7 @@ protected:
 
   Node* BSearchEqPred(const Data &, bool *) const;
   Node* BSearchPred(const Data &, bool *) const;
-  Node* BSearchSucc(const Data &) const;
+  Node* BSearchSucc(const Data &, bool *) const;
 
 };
 

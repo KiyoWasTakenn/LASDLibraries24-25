@@ -66,13 +66,16 @@ void stestSetInt(lasd::Set<int> & set, uint & testnum, uint & testerr) {
     TraversePreOrder(loctestnum, loctesterr, set, true, &TraversePrint<int>);
     TraversePostOrder(loctestnum, loctesterr, set, true, &TraversePrint<int>);
 
+    
     Remove(loctestnum, loctesterr, set, false, 6);
+    
     Remove(loctestnum, loctesterr, set, true, 2);
-
+    
     TraversePreOrder(loctestnum, loctesterr, set, true, &TraversePrint<int>);
     TraversePostOrder(loctestnum, loctesterr, set, true, &TraversePrint<int>);
 
     Exists(loctestnum, loctesterr, set, false, 6);
+    
     Exists(loctestnum, loctesterr, set, false, 2);
 
     RemoveMax(loctestnum, loctesterr, set, true);
@@ -392,7 +395,7 @@ void stestSetString(uint & testnum, uint & testerr) {
 
     /* ********************************************************************** */
 
-    // EqualLinear(loctestnum, loctesterr, setvec, setlst, true);
+    EqualLinear(loctestnum, loctesterr, setvec, setlst, true);
 
   }
   catch (...) {
