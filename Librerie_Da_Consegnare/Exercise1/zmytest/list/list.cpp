@@ -27,7 +27,10 @@ void mylst_int(uint &testnum, uint &testerr)
 
     try
     {
+        //EmptyVectorDefaultConstructor
+        {
 
+        }
     }
     catch(...)
     {
