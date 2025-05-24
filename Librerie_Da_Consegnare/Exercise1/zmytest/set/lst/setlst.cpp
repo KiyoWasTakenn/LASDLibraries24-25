@@ -36,6 +36,10 @@ void mysetlst_int(uint &testnum, uint &testerr)
         loctesterr++;
         cout << endl << "../Unmanaged error! " << endl;
     }
+
+    cout << endl << "---------------------- End of MySetLst<int> tests! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;;
+    testnum += loctestnum;
+    testerr += loctesterr;
 }
 
 void mysetlst_double(uint &testnum, uint &testerr)
@@ -53,6 +57,10 @@ void mysetlst_double(uint &testnum, uint &testerr)
         loctesterr++;
         cout << endl << "../Unmanaged error! " << endl;
     }
+
+    cout << endl << "---------------------- End of MySetLst<double> tests! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;;
+    testnum += loctestnum;
+    testerr += loctesterr;
 }
 
 void mysetlst_string(uint &testnum, uint &testerr)
@@ -70,6 +78,10 @@ void mysetlst_string(uint &testnum, uint &testerr)
         loctesterr++;
         cout << endl << "../Unmanaged error! " << endl;
     }
+
+    cout << endl << "---------------------- End of MySetLst<string> tests! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;;
+    testnum += loctestnum;
+    testerr += loctesterr;
 }
 
 

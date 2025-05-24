@@ -426,22 +426,20 @@ void SetVec<Data>::IndexedRemove(ulong to_remove) // Quando ho già la posizione
     if(left_elems >= right_elems)
     {
         if(right_elems > 0)
-        {
             LeftShift(to_remove + 1, right_elems);
-            if(size - 1 == 0)
-                head = (head == 0) ? capacity - 1 : head - 1;
-        }
     }
     else
     {
         if(left_elems > 0)
-        {
             RightShift(0, left_elems);
-            head = (head + 1) % capacity;
-        }  
+        
+        head = (head + 1) % capacity;
     }
 
     size--;
+
+    if(size == 0) head = 0;
+
     checkResize();
 }
 
