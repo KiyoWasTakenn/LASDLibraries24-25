@@ -2,7 +2,7 @@
 cc = g++
 cflags = -Wall -pedantic -O3 -std=c++20 -fsanitize=address
 
-objects = main.o test.o mytest.o container.o exc1as.o exc1af.o exc1bs.o exc1bf.o
+objects = main.o test.o mytest.o my_test_vec.o my_test_lst.o my_test_setvec.o my_test_setlst.o container.o exc1as.o exc1af.o exc1bs.o exc1bf.o
 
 libcon = container/container.hpp container/testable.hpp container/traversable.hpp container/traversable.cpp container/mappable.hpp container/mappable.cpp container/dictionary.hpp container/dictionary.cpp container/linear.hpp container/linear.cpp
 
@@ -26,6 +26,18 @@ test.o: zlasdtest/test.cpp zlasdtest/test.hpp
 
 mytest.o: zmytest/test.cpp zmytest/test.hpp
 	$(cc) $(cflags) -c zmytest/test.cpp -o mytest.o
+
+my_test_vec.o: zmytest/vector/vector.hpp zmytest/vector/vector.cpp
+	$(cc) $(cflags) -c zmytest/vector/vector.cpp -o my_test_vec.o
+
+my_test_lst.o: zmytest/list/list.hpp zmytest/list/list.cpp
+	$(cc) $(cflags) -c zmytest/list/list.cpp -o my_test_lst.o
+
+my_test_setvec.o: zmytest/set/vec/setvec.hpp zmytest/set/vec/setvec.cpp
+	$(cc) $(cflags) -c zmytest/set/vec/setvec.cpp -o my_test_setvec.o
+
+my_test_setlst.o: zmytest/set/lst/setlst.hpp zmytest/set/lst/setlst.cpp
+	$(cc) $(cflags) -c zmytest/set/lst/setlst.cpp -o my_test_setlst.o
 
 container.o: $(libcon) zlasdtest/container/container.cpp zlasdtest/container/container.hpp
 	$(cc) $(cflags) -c zlasdtest/container/container.cpp -o container.o
