@@ -172,7 +172,7 @@ public:
 
   // Specific member function
 
-  virtual void Sort() noexcept;
+  inline virtual void Sort() noexcept;
 
 protected:
 

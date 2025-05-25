@@ -55,11 +55,11 @@ protected:
 
     /* ********************************************************************** */
 
-    // Copy assignment
-    Node & operator=(const Node &);
+    // // Copy assignment
+    // Node & operator=(const Node &);
 
-    // Move assignment
-    Node & operator=(Node &&) noexcept;
+    // // Move assignment
+    // Node & operator=(Node &&) noexcept;
 
     /* ********************************************************************** */
 
@@ -118,7 +118,7 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  inline bool operator==(const List &) const noexcept;
+  bool operator==(const List &) const noexcept;
   inline bool operator!=(const List &) const noexcept;
 
   /* ************************************************************************ */
@@ -141,9 +141,9 @@ public:
 
   Data & operator[](const ulong) override; // Override MutableLinearContainer member (must throw std::out_of_range when out of range)
 
-  Data & Front() override; // Override MutableLinearContainer member (must throw std::length_error when empty)
+  inline Data & Front() override; // Override MutableLinearContainer member (must throw std::length_error when empty)
 
-  Data & Back() override; // Override MutableLinearContainer member (must throw std::length_error when empty)
+  inline Data & Back() override; // Override MutableLinearContainer member (must throw std::length_error when empty)
 
   /* ************************************************************************ */
 
@@ -151,9 +151,9 @@ public:
 
   const Data & operator[](const ulong) const override; // Override LinearContainer member (must throw std::out_of_range when out of range)
 
-  const Data & Front() const override; // Override LinearContainer member (must throw std::length_error when empty)
+  inline const Data & Front() const override; // Override LinearContainer member (must throw std::length_error when empty)
 
-  const Data & Back() const override; // Override LinearContainer member (must throw std::length_error when empty)
+  inline const Data & Back() const override; // Override LinearContainer member (must throw std::length_error when empty)
 
   /* ************************************************************************ */
 
@@ -161,7 +161,7 @@ public:
 
   using typename MappableContainer<Data>::MapFun;
 
-  void Map(MapFun) override; // Override MappableContainer member
+  inline void Map(MapFun) override; // Override MappableContainer member
 
   /* ************************************************************************ */
 
@@ -173,7 +173,7 @@ public:
 
   // Specific member function (inherited from PostOrderMappableContainer)
 
-  void PostOrderMap(MapFun) override; // Override PostOrderMappableContainer member
+  inline void PostOrderMap(MapFun) override; // Override PostOrderMappableContainer member
 
   /* ************************************************************************ */
 
@@ -181,7 +181,7 @@ public:
 
   using typename TraversableContainer<Data>::TraverseFun;
 
-  void Traverse(TraverseFun) const override; // Override TraversableContainer member
+  inline void Traverse(TraverseFun) const override; // Override TraversableContainer member
 
   /* ************************************************************************ */
 
@@ -193,7 +193,7 @@ public:
 
   // Specific member function (inherited from PostOrderTraversableContainer)
 
-  void PostOrderTraverse(TraverseFun) const override; // Override PostOrderTraversableContainer member
+  inline void PostOrderTraverse(TraverseFun) const override; // Override PostOrderTraversableContainer member
 
   /* ************************************************************************ */
 

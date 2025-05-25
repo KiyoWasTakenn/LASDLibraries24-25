@@ -352,7 +352,7 @@ bool SetVec<Data>::Remove(const Data &key) // Override DictionaryContainer membe
 /* ---------------------------SetVec: Specific member functions (inherited from LinearContainer)------------------------- */
 
 template <typename Data>
-const Data & SetVec<Data>::operator[](const ulong offset) const
+inline const Data & SetVec<Data>::operator[](const ulong offset) const
 {
     if(offset >= size)
         throw std::out_of_range("Out Of Range Exception from LinearContainer(SetVec) \n");
@@ -372,8 +372,10 @@ bool SetVec<Data>::Exists(const Data &key) const noexcept
 template <typename Data>
 void SetVec<Data>::Clear()
 {
-    Vector<Data>::Clear();
-    capacity = 0;
+    delete[] Elements;
+    Elements = new Data[2] {};
+    capacity = 2;
+    size = 0;
     head = 0;
 }
 
@@ -389,7 +391,7 @@ SetVec<Data>::SetVec(ulong newCapacity)
 }
 
 template <typename Data>
-Data & SetVec<Data>::operator[](const ulong offset) 
+inline Data & SetVec<Data>::operator[](const ulong offset) 
 {
     if(offset >= size)
         throw std::out_of_range("Out Of Range Exception from LinearContainer(SetVec) \n");

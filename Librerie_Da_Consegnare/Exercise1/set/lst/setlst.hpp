@@ -30,16 +30,7 @@ protected:
   using List<Data>::head;
   using List<Data>::tail;
   
-public:
-   void stampa_info(){
-    std::cout << std::endl << "Lista: " << std::endl;
-    Node* tmp = head;
-    while(tmp != nullptr){
-      std::cout << tmp->elem << "-> ";
-      tmp = tmp->next;
-    }
-    std::cout << std::endl << "Size: " << size << std::endl;
-  }              
+public:         
 
   // Default constructor
   SetLst() = default;

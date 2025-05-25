@@ -71,21 +71,21 @@ public:
 
   // Specific member functions (inherited from MutableLinearContainer)
 
-  Data & operator[](const ulong) override; // Override MutableLinearContainer member (must throw std::out_of_range when out of range)
+  inline Data & operator[](const ulong) override; // Override MutableLinearContainer member (must throw std::out_of_range when out of range)
 
-  Data & Front() override; // Override MutableLinearContainer member (must throw std::length_error when empty)
+  inline Data & Front() override; // Override MutableLinearContainer member (must throw std::length_error when empty)
 
-  Data & Back() override; // Override MutableLinearContainer member (must throw std::length_error when empty)
+  inline Data & Back() override; // Override MutableLinearContainer member (must throw std::length_error when empty)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from LinearContainer)
 
-  const Data & operator[](const ulong) const override; // Override LinearContainer member (must throw std::out_of_range when out of range)
+  inline const Data & operator[](const ulong) const override; // Override LinearContainer member (must throw std::out_of_range when out of range)
 
-  const Data & Front() const override; // Override LinearContainer member (must throw std::length_error when empty)
+  inline const Data & Front() const override; // Override LinearContainer member (must throw std::length_error when empty)
 
-  const Data & Back() const override; // Override LinearContainer member (must throw std::length_error when empty)
+  inline const Data & Back() const override; // Override LinearContainer member (must throw std::length_error when empty)
 
   /* ************************************************************************ */
 

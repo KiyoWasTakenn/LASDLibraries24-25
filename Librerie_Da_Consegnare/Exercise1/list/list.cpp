@@ -8,19 +8,19 @@ namespace lasd {
 
 // Constructor from Data by Copy
 template <typename Data>
-List<Data>::Node::Node(const Data &val) : elem(val) {}
+inline List<Data>::Node::Node(const Data &val) : elem(val) {}
 
 // Constructor from Data by Move
 template <typename Data>
-List<Data>::Node::Node(Data &&val) noexcept : elem(std::move(val)) {}
+inline List<Data>::Node::Node(Data &&val) noexcept : elem(std::move(val)) {}
 
 // Copy constructor
 template <typename Data>
-List<Data>::Node::Node(const Node &to_copy) : elem(to_copy.elem) {}
+inline List<Data>::Node::Node(const Node &to_copy) : elem(to_copy.elem) {}
 
 // Move constructor
 template <typename Data>
-List<Data>::Node::Node(Node &&to_move) noexcept
+inline List<Data>::Node::Node(Node &&to_move) noexcept
 {
     std::swap(elem, to_move.elem);
     std::swap(next, to_move.next);
@@ -36,7 +36,7 @@ List<Data>::Node::~Node()
 /* ---------------------------Node: Comparison Operators-------------------------- */
 
 template <typename Data>
-inline bool List<Data>::Node::operator==(const Node &to_cmp) const noexcept
+bool List<Data>::Node::operator==(const Node &to_cmp) const noexcept
 {
     return (elem == to_cmp.elem) && ((next == nullptr && to_cmp.next == nullptr)|| ((next != nullptr && to_cmp.next != nullptr) && (*next == *to_cmp.next)));
 }
@@ -355,13 +355,13 @@ Data & List<Data>::operator[](const ulong index) // Override MutableLinearContai
 }
 
 template <typename Data>
-Data & List<Data>::Front() // Override MutableLinearContainer member (must throw std::length_error when empty)
+inline Data & List<Data>::Front() // Override MutableLinearContainer member (must throw std::length_error when empty)
 {
     return const_cast<Data &>(static_cast<const List<Data> *> (this)->Front());
 }
 
 template <typename Data>
-Data & List<Data>::Back() // Override MutableLinearContainer member (must throw std::length_error when empty)
+inline Data & List<Data>::Back() // Override MutableLinearContainer member (must throw std::length_error when empty)
 {
     return const_cast<Data &>(static_cast<const List<Data> *> (this)->Back());
 }
@@ -382,7 +382,7 @@ const Data & List<Data>::operator[](const ulong index) const // Override LinearC
 }
 
 template <typename Data>
-const Data & List<Data>::Front() const // Override LinearContainer member (must throw std::length_error when empty)
+inline const Data & List<Data>::Front() const // Override LinearContainer member (must throw std::length_error when empty)
 {
     if(size == 0)
         throw std::length_error("Empty Exception from List\n");
@@ -391,7 +391,7 @@ const Data & List<Data>::Front() const // Override LinearContainer member (must 
 }
 
 template <typename Data>
-const Data & List<Data>::Back() const // Override LinearContainer member (must throw std::length_error when empty)
+inline const Data & List<Data>::Back() const // Override LinearContainer member (must throw std::length_error when empty)
 {
     if(size == 0)
         throw std::length_error("Empty Exception from List\n");
@@ -402,7 +402,7 @@ const Data & List<Data>::Back() const // Override LinearContainer member (must t
 /* ---------------------------List: Member Functions (Mappable) -------------------------- */
 
 template <typename Data>
-void List<Data>::Map(MapFun fun)
+inline void List<Data>::Map(MapFun fun)
 {
     PreOrderMap(fun);
 }
@@ -424,7 +424,7 @@ void List<Data>::PreOrderMap(MapFun fun)
 /* ---------------------------List: Member Functions (PostOrderMappable) -------------------------- */
 
 template <typename Data>
-void List<Data>::PostOrderMap(MapFun fun)
+inline void List<Data>::PostOrderMap(MapFun fun)
 {
     PostOrderMap(fun, head);
 }
@@ -432,7 +432,7 @@ void List<Data>::PostOrderMap(MapFun fun)
 /* ---------------------------List: Member Functions (Traversable) -------------------------- */
 
 template <typename Data>
-void List<Data>::Traverse(TraverseFun fun) const
+inline void List<Data>::Traverse(TraverseFun fun) const
 {
     PreOrderTraverse(fun);
 }
@@ -454,7 +454,7 @@ void List<Data>::PreOrderTraverse(TraverseFun fun) const
 /* ---------------------------List: Member Functions (PostOrderTraversable) -------------------------- */
 
 template <typename Data>
-void List<Data>::PostOrderTraverse(TraverseFun fun) const
+inline void List<Data>::PostOrderTraverse(TraverseFun fun) const
 {
     PostOrderTraverse(fun, head);
 }

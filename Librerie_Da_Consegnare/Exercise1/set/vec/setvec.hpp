@@ -23,21 +23,20 @@ class SetVec : virtual public Set<Data>,
 
 private:
 
-  // ...
+  
 
 protected:
 
   using Container::size;
-  using Vector<Data>::Elements; // ATTENTOOOOOOOOOOOOOOOOOOO
+  using Vector<Data>::Elements; 
 
   ulong head = 0;
   ulong capacity = 0;
 
-
 public:
   
   // Default constructor
-  SetVec() : SetVec(2) {} // ATTENTOOOOOOOOOOOOOOOOOOO
+  SetVec() : SetVec(2) {} 
 
   /* ************************************************************************ */
 
@@ -53,11 +52,10 @@ public:
   // Move constructor
   SetVec(SetVec &&) noexcept;
 
-
   /* ************************************************************************ */
 
   // Destructor
-  virtual ~SetVec() = default; // ATTENTOOOOOOOOOOOOOOOOOOO
+  virtual ~SetVec() = default;
 
   /* ************************************************************************ */
 
@@ -105,7 +103,7 @@ public:
 
   // Specific member functions (inherited from LinearContainer)
 
-  const Data & operator[](const ulong) const override; // Override LinearContainer member (must throw std::out_of_range when out of range)
+  inline const Data & operator[](const ulong) const override; // Override LinearContainer member (must throw std::out_of_range when out of range)
 
   /* ************************************************************************** */
 
@@ -134,13 +132,12 @@ protected:
   void Resize(ulong) override; 
 
   ulong BSearchExists(const Data &) const;  
-  ulong BSearchEqPred(const Data &) const; // Per Insert
+  ulong BSearchEqPred(const Data &) const;
   ulong BSearchPred(const Data &) const;
   ulong BSearchSucc(const Data &) const;
 
-  Data & operator[](const ulong) override;
+  inline Data & operator[](const ulong) override;
   
-
 };
 
 /* ************************************************************************** */

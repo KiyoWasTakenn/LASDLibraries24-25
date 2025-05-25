@@ -145,19 +145,19 @@ inline bool Vector<double>::operator==(const Vector<double> &vec) const noexcept
 /* ---------------------------Vector: Member Functions (Mutable) -------------------------- */
 
 template <typename Data>
-Data & Vector<Data>::operator[](const ulong index) // Override MutableLinearContainer member (must throw std::out_of_range when out of range)
+inline Data & Vector<Data>::operator[](const ulong index) // Override MutableLinearContainer member (must throw std::out_of_range when out of range)
 {
      return const_cast<Data &>(static_cast<const Vector<Data> *> (this)->operator[](index));
 }
 
 template <typename Data>
-Data & Vector<Data>::Front() // Override MutableLinearContainer member (must throw std::length_error when empty)
+inline Data & Vector<Data>::Front() // Override MutableLinearContainer member (must throw std::length_error when empty)
 {
      return const_cast<Data &>(static_cast<const Vector<Data> *> (this)->Front());
 }
 
 template <typename Data>
-Data & Vector<Data>::Back()  // Override MutableLinearContainer member (must throw std::length_error when empty)
+inline Data & Vector<Data>::Back()  // Override MutableLinearContainer member (must throw std::length_error when empty)
 {
     return const_cast<Data &>(static_cast<const Vector<Data> *> (this)->Back());
 }
@@ -165,7 +165,7 @@ Data & Vector<Data>::Back()  // Override MutableLinearContainer member (must thr
 /* ---------------------------Vector: Member Functions (Linear) -------------------------- */
 
 template <typename Data>
-const Data & Vector<Data>::operator[](const ulong index) const // Override LinearContainer member (must throw std::out_of_range when out of range)
+inline const Data & Vector<Data>::operator[](const ulong index) const // Override LinearContainer member (must throw std::out_of_range when out of range)
 {
     if(index >= size)
         throw std::out_of_range("Out Of Range Exception from LinearContainer(Vector)\n");
@@ -173,7 +173,7 @@ const Data & Vector<Data>::operator[](const ulong index) const // Override Linea
 }
 
 template <typename Data>
-const Data & Vector<Data>::Front() const // Override LinearContainer member (must throw std::length_error when empty)
+inline const Data & Vector<Data>::Front() const // Override LinearContainer member (must throw std::length_error when empty)
 {
     if(size == 0)
         throw std::length_error("Length Error Exception from LinearContainer(Vector): It is Empty\n"); 
@@ -182,7 +182,7 @@ const Data & Vector<Data>::Front() const // Override LinearContainer member (mus
 }
 
 template <typename Data>
-const Data & Vector<Data>::Back() const // Override LinearContainer member (must throw std::length_error when empty)
+inline const Data & Vector<Data>::Back() const // Override LinearContainer member (must throw std::length_error when empty)
 {
     if(size == 0)
         throw std::length_error("Length Error Exception from LinearContainer(Vector): It is Empty\n");

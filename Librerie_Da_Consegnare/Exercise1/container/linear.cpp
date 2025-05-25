@@ -104,7 +104,7 @@ inline void MutableLinearContainer<Data>::PostOrderMap(MapFun fun)
 /* ---------------------------SortableLinearContainer: Member Functions--------------------------- */
 
 template <typename Data>
-void SortableLinearContainer<Data>::Sort() noexcept
+inline void SortableLinearContainer<Data>::Sort() noexcept
 {
     InsertionSort();
 }
