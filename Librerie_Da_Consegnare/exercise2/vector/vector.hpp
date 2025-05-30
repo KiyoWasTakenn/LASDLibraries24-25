@@ -115,12 +115,9 @@ class SortableVector : virtual public Vector<Data>,
 
 private:
 
-  // ...
-
 protected:
   
   using Container::size;
-  // ...
 
 public:
 

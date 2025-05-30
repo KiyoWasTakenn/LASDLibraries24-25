@@ -41,7 +41,7 @@ public:
 
   virtual bool IsHeap() const noexcept = 0;
 
-  // type Heapify(argument) = 0;
+  virtual void Heapify() /* TODO noexcept */ = 0;
 
 };
 

@@ -86,7 +86,7 @@ List<Data>::List(const TraversableContainer<Data> &cont)
 
 // A list obtained from a MappableContainer
 template <typename Data>
-List<Data>::List(MappableContainer<Data> &&cont) noexcept
+List<Data>::List(MappableContainer<Data> &&cont)
 {
     cont.Map
     (

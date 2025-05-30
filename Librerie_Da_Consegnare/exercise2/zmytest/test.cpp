@@ -43,6 +43,17 @@ void MyTestExercise1B()
     check(setlst_test);
 }
 
+
+// void MyTestExercise2A()
+// {
+//     check(heapvec_test);
+// }
+
+// void MyTestExercise2B()
+// {
+//     check(pqheap_test);
+// }
+
 void mytest()
 {
     cout << endl << "---------------------- STARTING MyTests ...----------------------" << endl;
@@ -68,6 +79,27 @@ void mytest()
 
     testnum = testerr = 0;
 
+
+    // cout << endl << "---------------------- STARTING MyTestExercise2A ----------------------" << endl;
+    // MyTestExercise2A();
+    // cout << endl << "MyTestExercise2: Errors/Tests: " << testerr << "/" << testnum << endl;
+    // uint testnum2 = testnum;
+    // uint testerr2 = testerr;
+    // cout << endl << "---------------------- END OF MyTestExercise2A ---------------------- " << endl;
+
+
+    // testnum = testerr = 0;
+
+
+    // cout << endl << "---------------------- STARTING MyTestExercise2B ----------------------" << endl;
+    // MyTestExercise2B();
+    // cout << endl << "MyTestExercise2: Errors/Tests: " << testerr << "/" << testnum << endl;
+    // uint testnum2 = testnum;
+    // uint testerr2 = testerr;
+    // cout << endl << "---------------------- END OF MyTestExercise2B ---------------------- " << endl;
+
+
+    testnum = testerr = 0;
 
     cout << endl << "---------------------- SUMMARY OF ALL TESTS ----------------------" << endl;
 

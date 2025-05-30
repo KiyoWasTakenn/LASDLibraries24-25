@@ -2,7 +2,7 @@
 cc = g++
 cflags = -Wall -pedantic -O3 -std=c++20 -fsanitize=address
 
-objects = main.o test.o mytest.o my_test_vec.o my_test_lst.o my_test_setvec.o my_test_setlst.o container.o exc1as.o exc1af.o exc1bs.o exc1bf.o #exc2as.o exc2af.o exc2bs.o exc2bf.o
+objects = main.o test.o mytest.o my_test_vec.o my_test_lst.o my_test_setvec.o my_test_setlst.o container.o exc1as.o exc1af.o exc1bs.o exc1bf.o exc2as.o exc2af.o exc2bs.o exc2bf.o
 
 libcon = container/container.hpp container/testable.hpp container/traversable.hpp container/traversable.cpp container/mappable.hpp container/mappable.cpp container/dictionary.hpp container/dictionary.cpp container/linear.hpp container/linear.cpp
 

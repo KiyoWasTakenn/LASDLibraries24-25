@@ -19,7 +19,7 @@ SetLst<Data>::SetLst(const TraversableContainer<Data> &cont) // A set obtained f
 }
 
 template <typename Data>
-SetLst<Data>::SetLst(MappableContainer<Data> &&cont) noexcept // A set obtained from a MappableContainer non mette noexcept? 
+SetLst<Data>::SetLst(MappableContainer<Data> &&cont) // A set obtained from a MappableContainer non mette noexcept? 
 {
     cont.Map
     (

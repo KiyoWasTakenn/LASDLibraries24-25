@@ -39,19 +39,16 @@ public:
 
   // Specific member functions
 
-  inline const Data & Tip() const
-  {
-    Front()
-  } // (concrete function must throw std::length_error when empty)
+  virtual inline const Data & Tip() const = 0 ;// (concrete function must throw std::length_error when empty)
 
-  void RemoveTip() = 0; // (concrete function must throw std::length_error when empty)
-  const Data &  TipNRemove() = 0; // (concrete function must throw std::length_error when empty)
+  virtual void RemoveTip() = 0; // (concrete function must throw std::length_error when empty)
+  virtual Data TipNRemove() = 0; // (concrete function must throw std::length_error when empty)
 
-  void Insert(const Data &) = 0; // Copy of the value
-  void Insert(Data &&) = 0; // Move of the value
+  virtual void Insert(const Data &) = 0; // Copy of the value
+  virtual void Insert(Data &&) = 0; // Move of the value
 
-  void Change(ulong, const Data &) = 0; // Copy of the value
-  void Change(ulong, Data &&) = 0; //  Move of the value
+  virtual void Change(ulong, const Data &) = 0; // Copy of the value
+  virtual void Change(ulong, Data &&) = 0; //  Move of the value
 
 };
 

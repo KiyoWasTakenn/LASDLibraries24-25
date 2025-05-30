@@ -14,74 +14,80 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class PQHeap : virtual public PQ<Data>
+class PQHeap : virtual public PQ<Data>,
                virtual protected HeapVec<Data> {
   // Must extend PQ<Data>,
   // Could extend HeapVec<Data>
 
 private:
 
-  // ...
 
 protected:
 
-  // using Container::???;
+  using Container::size;
+  using HeapVec<Data>::Elements;
+  using HeapVec<Data>::Front;
+  using HeapVec<Data>::Back;
+  using HeapVec<Data>::Heapify;  
+  
 
-  // ...
-
+  ulong capacity = 0;
+  
 public:
 
   // Default constructor
-  // PQHeap() specifiers;
+  PQHeap();
 
   /* ************************************************************************ */
 
   // Specific constructors
-  // PQHeap(argument) specifiers; // ! A priority queue obtained from a TraversableContainer PUNTO CHE SEMBRA UNA SCEMENZA MA è DELICATO, 
-  // ! SI POTREBBE PENSARE DI CHIAMARE SEMPLICEMENTE IL COSTRUTTORE DI HEAPVEC, MA IL COSTRUTTORE DI HEAPVEC NON FA LE COSE PER BENE SE NON METTIAMO 
-  // ! L'EREDITà IN MODO NON VIRTUALE IN HEAPVEC DA SORTABLEVECTOR<DATA>. NEL MOMENTO IN CUI è INCAPSULATO, PQHEAP QUANDO ANDRA AD ESTENDERE HEAPVEC 
-  // ! AVRA ALL'INTERNO VECTOR. SE INVECE LO DICHIARIAMO VIRTUAL NON SARà HEAPVEC CHE SE NE ACCORGERà, NON CHIAMA I COSTRUTTORI. SE NON CHIAMASSI VIRTUALE DOVREI FARE A(CONT)B(CONT)
+  PQHeap(const TraversableContainer<Data> &); // A priority queue obtained from a TraversableContainer 
 
-  // PQHeap(argument) specifiers; // A priority queue obtained from a MappableContainer
+  PQHeap(MappableContainer<Data> &&); // A priority queue obtained from a MappableContainer
 
   /* ************************************************************************ */
 
   // Copy constructor
-  // PQHeap(argument) specifiers;
+  PQHeap(const PQHeap &);
 
   // Move constructor
-  // PQHeap(argument) specifiers;
+  PQHeap(PQHeap &&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~PQHeap() specifiers;
+  ~PQHeap() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
+  PQHeap & operator=(const PQHeap &);
 
   // Move assignment
-  // type operator=(argument) specifiers;
+  PQHeap & operator=(PQHeap &&) noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from PQ)
 
-  // type Tip(argument) override; // Override PQ member (must throw std::length_error when empty)
-  // type RemoveTip(argument) override; // Override PQ member (must throw std::length_error when empty)
-  // type TipNRemove(argument) override; // Override PQ member (must throw std::length_error when empty)
+  inline const Data & Tip() const override; // Override PQ member (must throw std::length_error when empty)
+  void RemoveTip() override; // Override PQ member (must throw std::length_error when empty)
+  Data TipNRemove() override; // Override PQ member (must throw std::length_error when empty)
 
-  // type Insert(argument) override; // Override PQ member (Copy of the value)
-  // type Insert(argument) override; // Override PQ member (Move of the value)
+  void Insert(const Data &) override ; // Override PQ member (Copy of the value)
+  void Insert(Data &&) override ; // Override PQ member (Move of the value)
 
-  // type Change(argument) override; // Override PQ member (Copy of the value)
-  // type Change(argument) override; // Override PQ member (Move of the value)
+  void Change(ulong, const Data &) override; // Override PQ member (Copy of the value)
+  void Change(ulong, Data &&) override; // Override PQ member (Move of the value)
 
 protected:
 
-  // Auxiliary functions, if necessary!
+  void HeapifyUp(ulong);
+
+  void checkResize();
+  void Resize(const ulong) override;
+
+  void Clear() override;
 
 };
 

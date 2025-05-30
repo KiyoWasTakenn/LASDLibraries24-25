@@ -1,9 +1,203 @@
+#include "pqheap.hpp"
+#include <cmath>
 
 namespace lasd {
 
 /* ************************************************************************** */
 
+/* ---------------------------PQHeap: Constructors/Destructors -------------------------- */
 
+template <typename Data>
+PQHeap<Data>::PQHeap() : Vector<Data>(2)
+{
+    capacity = size;
+    size = 0;   
+}
+
+// A priority queue obtained from a TraversableContainer 
+template <typename Data>
+PQHeap<Data>::PQHeap(const TraversableContainer<Data> &cont) : Vector<Data>::Vector(cont), HeapVec<Data>::HeapVec(cont)
+{
+    capacity = size;
+}
+
+// A priority queue obtained from a MappableContainer
+template <typename Data>
+PQHeap<Data>::PQHeap(MappableContainer<Data> &&cont) : Vector<Data>::Vector(std::move(cont))
+{
+    capacity = size; 
+    Heapify();
+} 
+
+// Copy constructor
+template <typename Data>
+PQHeap<Data>::PQHeap(const PQHeap &cpheap) : Vector<Data>::Vector(cpheap.size), HeapVec<Data>(cpheap)
+{
+    for(ulong i = 0; i < cpheap.size; i++)
+        (*this)[i] = cpheap[i];
+    
+    capacity = size;
+}
+
+// Move constructor
+template <typename Data>
+PQHeap<Data>::PQHeap(PQHeap &&mvheap) noexcept : Vector<Data>::Vector(std::move(mvheap))
+{
+    std::swap(this->capacity, mvheap.capacity);
+    Heapify();
+}
+
+/* ---------------------------PQHeap: Assignments -------------------------- */
+
+// Copy assignment
+template <typename Data>
+PQHeap<Data> & PQHeap<Data>::operator=(const PQHeap &cpheap)
+{
+    PQHeap<Data> * tmp = new PQHeap<Data>(cpheap);
+
+    std::swap(*tmp, *this);
+    delete tmp;
+
+    return *this;
+}
+
+// Move assignment
+template <typename Data>
+PQHeap<Data> & PQHeap<Data>::operator=(PQHeap &&mvheap) noexcept
+{
+    std::swap(this->Elements, mvheap.Elements);
+    std::swap(this->capacity, mvheap.capacity);
+    std::swap(this->size, mvheap.size);
+
+    return *this;
+}
+
+/* ---------------------------PQHeap: Specific member functions (inherited from PQ) -------------------------- */
+
+template <typename Data>
+inline const Data & PQHeap<Data>::Tip() const // Override PQ member (must throw std::length_error when empty)
+{
+    return Front();
+}
+
+template <typename Data>
+void PQHeap<Data>::RemoveTip() // Override PQ member (must throw std::length_error when empty)
+{
+    if(size == 0)
+        throw std::length_error("Length Exception: PQHeap is empty");
+
+    std::swap((*this)[0], (*this)[size - 1]);
+    Heapify(--size, 0);
+
+    checkResize();
+}
+
+template <typename Data>
+Data PQHeap<Data>::TipNRemove() // Override PQ member (must throw std::length_error when empty)
+{
+    if(size == 0)
+        throw std::length_error("Length Exception: PQHeap is empty");
+
+    Data tmpTip = (*this)[0];
+
+    RemoveTip();
+
+    return tmpTip;
+}
+
+template <typename Data>
+void PQHeap<Data>::Insert(const Data &cpheap) // Override PQ member (Copy of the value)
+{
+    checkResize();
+
+    Elements[size++] = cpheap;
+
+    HeapifyUp(size - 1); //HeapifyUp
+}
+
+template <typename Data>
+void PQHeap<Data>::Insert(Data &&mvheap) // Override PQ member (Move of the value)
+{
+    checkResize();
+
+    Elements[size++] = std::move(mvheap);
+    HeapifyUp(size - 1); //HeapifyUp
+}
+
+template <typename Data>
+void PQHeap<Data>::Change(ulong index, const Data &cpheap) // Override PQ member (Copy of the value)
+{
+    (*this)[index] = cpheap;
+
+    if((*this)[index] > (*this)[floor(index/2)])
+        HeapifyUp(index);
+    else 
+        Heapify(size, index);
+}
+
+template <typename Data>
+void PQHeap<Data>::Change(ulong index, Data &&mvheap)  // Override PQ member (Move of the value)
+{
+    (*this)[index] = std::move(mvheap);
+
+    if((*this)[index] > (*this)[floor(index/2)])
+        HeapifyUp(index);
+    else 
+        Heapify(size, index);
+}
+
+/* ---------------------------PQHeap: Auxilary Functions -------------------------- */
+
+template <typename Data>
+void PQHeap<Data>::HeapifyUp(ulong index)
+{
+    if(index > 0)
+    {
+        ulong dad = (index - 1) /2;
+        if((*this)[dad] < (*this)[index])
+        {
+            std::swap((*this)[dad], (*this)[index]);
+            HeapifyUp(dad);
+        }
+    }    
+}
+
+template <typename Data>
+void PQHeap<Data>::Resize(const ulong newDim)
+{
+    ulong oldSize = size;
+
+    Vector<Data>::Resize(newDim);
+    capacity = size;
+
+    size = oldSize;
+}
+
+template <typename Data>
+void PQHeap<Data>::checkResize()
+{
+    if(capacity < 2) 
+    {
+        delete[] Elements;
+
+        Elements = new Data[2] {};
+        capacity = 2;
+        size = 0;
+    }
+    else if(static_cast<double>(size) / capacity <= 0.25 && capacity > 2)
+        Resize(std::max(capacity / 2, 2UL));
+    else if(static_cast<double>(size) / capacity >= 0.9)
+        Resize(capacity * 2);
+}
+
+template <typename Data>
+void PQHeap<Data>::Clear()
+{
+    delete[] Elements;
+    Elements = new Data[2] {};
+    capacity = 2;
+    size = 0;
+}
 
 /* ************************************************************************** */
 

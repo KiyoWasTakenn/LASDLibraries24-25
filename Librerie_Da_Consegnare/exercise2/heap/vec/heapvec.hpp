@@ -15,19 +15,21 @@ namespace lasd {
 
 template <typename Data>
 class HeapVec : virtual public Heap<Data>,
-                protected SortableVector<Data>{
+                virtual protected SortableVector<Data>{
   // Must extend Heap<Data>,
-  // Could extend SortableVector<Data> NON VIRTUALE ALTRIMENTI NON FUNZIONA PQHEAP
+  // Could extend SortableVector<Data>
 
 private:
 
-  // ...
 
 protected:
 
-  // using Container::???;
+  using Container::size;
+  using SortableVector<Data>::Elements;
 
-  // ...
+  using SortableVector<Data>::Front;
+  using SortableVector<Data>::Back;
+  using SortableVector<Data>::operator[];
 
 public:
 
@@ -37,8 +39,8 @@ public:
   /* ************************************************************************ */
 
   // Specific constructors
-  // ! HeapVec(argument) specifiers; // A heap obtained from a TraversableContainer COSTRUTTORE SPECIFICO DELLA SOVRACLASSE sortable E POI NEL CORPO CI VUOLE LA CHIAMATA A HEAPIFY(BUILDHEAP)
-  // ! HeapVec(argument) specifiers; // A heap obtained from a MappableContainer same as sopra 
+  HeapVec(const TraversableContainer<Data> &); //! A heap obtained from a TraversableContainer COSTRUTTORE SPECIFICO DELLA SOVRACLASSE sortable E POI NEL CORPO CI VUOLE LA CHIAMATA A HEAPIFY(BUILDHEAP)
+  HeapVec(MappableContainer<Data> &&); // A heap obtained from a MappableContainer
 
   /* ************************************************************************ */
 
@@ -46,7 +48,7 @@ public:
   HeapVec(const HeapVec &);
 
   // Move constructor
-  Heapvec(HeapVec &&) noexcept;
+  HeapVec(HeapVec &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -56,35 +58,37 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment 
-  // ! type operator=(argument) specifiers; CHIAMARE SOLO QUELLO CHE FA LE COSE PER BENE PERCHè STO COPIANDO GIA DA UNO HEAP NON SERVE SORTARE DEVO RICHIAMARLO DENTRO QUELLO DI SORTABLE VECTOR
+  HeapVec & operator=(const HeapVec &); //!CHIAMARE SOLO QUELLO CHE FA LE COSE PER BENE PERCHè STO COPIANDO GIA DA UNO HEAP NON SERVE SORTARE DEVO RICHIAMARLO DENTRO QUELLO DI SORTABLE VECTOR
 
   // Move assignment
-  // type operator=(argument) specifiers;
+  HeapVec & operator=(HeapVec &&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers; COME LAVORAVANO PER IL VETTORE 
-  // type operator!=(argument) specifiers; IDEM
+  bool operator==(const HeapVec &) const noexcept; // ! COME LAVORAVANO PER IL VETTORE 
+  inline bool operator!=(const HeapVec &) const noexcept; //! IDEM
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Heap)
 
-  // ! bool IsHeap(argument) const noexcept override; // Override Heap member CICLO CON LA FUNZIONE AUSILIARIA CHE TESTA SE TRA I TRE INDICI IL MASSIMO STA IN HTESTA
+  bool IsHeap() const noexcept override; //! Override Heap member CICLO CON LA FUNZIONE AUSILIARIA CHE TESTA SE TRA I TRE INDICI IL MASSIMO STA IN HTESTA
 
-  // ! type Heapify(argument) override; // Override Heap member CHIAMERA FOR DALL ULTIMO PADRE A 0 E CHIAMIAMO HEAPIFY PROTECTED HA UNA SIZE INTEGRATA non so se questa o l'altra
+  void Heapify() override; //! Override Heap member CHIAMERA FOR DALL ULTIMO PADRE A 0 E CHIAMIAMO HEAPIFY PROTECTED HA UNA SIZE INTEGRATA non so se questa o l'altra
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from SortableLinearContainer)
 
-  // ! type Sort(argument) specifiers; // Override SortableLinearContainer member HEAPSORT 
+  inline void Sort() noexcept override; // Override SortableLinearContainer member
 
 protected:
-
-  // Auxiliary functions, if necessary!
-
+  
+  HeapVec(const ulong);
+  void Heapify(ulong, ulong);
+  void HeapSort();
+  
 };
 
 /* ************************************************************************** */
