@@ -25,11 +25,7 @@ HeapVec<Data>::HeapVec(const HeapVec<Data> &hvec) : Vector<Data>::Vector(hvec) {
 
 // Move constructor
 template <typename Data>
-HeapVec<Data>::HeapVec(HeapVec<Data> &&hvec) noexcept
-{
-    std::swap(this->size, hvec.size);
-    std::swap(this->Elements, hvec.Elements);
-}
+HeapVec<Data>::HeapVec(HeapVec<Data> &&hvec) noexcept : Vector<Data>::Vector(std::move(hvec)) {}
 
 /* ---------------------------HeapVec: Assignments -------------------------- */
 
@@ -46,8 +42,7 @@ HeapVec<Data> & HeapVec<Data>::operator=(const HeapVec<Data> &hvec)
 template <typename Data>
 HeapVec<Data> & HeapVec<Data>::operator=(HeapVec<Data> &&hvec) noexcept
 {
-    std::swap(size, hvec.size);
-    std::swap(Elements, hvec.Elements);
+    SortableVector<Data>::operator=(std::move(hvec));
 
     return *this;
 }
@@ -92,7 +87,7 @@ template <typename Data>
 void HeapVec<Data>::Heapify()
 {
     for(ulong i = size/2; i>0; i--)
-        Heapify(size, i-1);
+        HeapifyDown(size, i-1);
 }
 
 /* ---------------------------HeapVec: Specific member function (inherited from SortableLinearContainer)-------------------------- */
@@ -106,7 +101,7 @@ inline void HeapVec<Data>::Sort() noexcept
 /* ---------------------------HeapVec: Auxilary functions -------------------------- */
 
 template <typename Data>
-void HeapVec<Data>::Heapify(ulong length, ulong root)
+void HeapVec<Data>::HeapifyDown(ulong length, ulong root)
 {
     ulong max = root;
 
@@ -122,7 +117,7 @@ void HeapVec<Data>::Heapify(ulong length, ulong root)
     if(root != max)
         {
             std::swap((*this)[root], (*this)[max]);
-            Heapify(length, max);
+            HeapifyDown(length, max);
         }
 }
 
@@ -136,7 +131,7 @@ void HeapVec<Data>::HeapSort()
         for(ulong i = size - 1; i>=1; i--)
             {
                 std::swap((*this)[0], (*this)[i]);
-                Heapify(i, 0);
+                HeapifyDown(i, 0);
             }
     }
 }

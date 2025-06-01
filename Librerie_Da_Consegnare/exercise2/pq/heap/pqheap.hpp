@@ -26,14 +26,17 @@ protected:
 
   using Container::size;
   using HeapVec<Data>::Elements;
-  using HeapVec<Data>::Front;
-  using HeapVec<Data>::Back;
-  using HeapVec<Data>::Heapify;  
+  using HeapVec<Data>::Heapify;
+  using HeapVec<Data>::HeapifyDown;  
   
-
   ulong capacity = 0;
   
 public:
+
+  using HeapVec<Data>::Front;
+  using HeapVec<Data>::Back;
+  using HeapVec<Data>::operator[];
+  using HeapVec<Data>::Clear;
 
   // Default constructor
   PQHeap();

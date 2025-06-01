@@ -27,11 +27,12 @@ protected:
   using Container::size;
   using SortableVector<Data>::Elements;
 
+public:
+
   using SortableVector<Data>::Front;
   using SortableVector<Data>::Back;
   using SortableVector<Data>::operator[];
-
-public:
+  using SortableVector<Data>::Clear;
 
   // Default constructor
   HeapVec() = default;
@@ -39,7 +40,7 @@ public:
   /* ************************************************************************ */
 
   // Specific constructors
-  HeapVec(const TraversableContainer<Data> &); //! A heap obtained from a TraversableContainer COSTRUTTORE SPECIFICO DELLA SOVRACLASSE sortable E POI NEL CORPO CI VUOLE LA CHIAMATA A HEAPIFY(BUILDHEAP)
+  HeapVec(const TraversableContainer<Data> &); // A heap obtained from a TraversableContainer
   HeapVec(MappableContainer<Data> &&); // A heap obtained from a MappableContainer
 
   /* ************************************************************************ */
@@ -58,7 +59,7 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment 
-  HeapVec & operator=(const HeapVec &); //!CHIAMARE SOLO QUELLO CHE FA LE COSE PER BENE PERCHè STO COPIANDO GIA DA UNO HEAP NON SERVE SORTARE DEVO RICHIAMARLO DENTRO QUELLO DI SORTABLE VECTOR
+  HeapVec & operator=(const HeapVec &);
 
   // Move assignment
   HeapVec & operator=(HeapVec &&) noexcept;
@@ -66,16 +67,16 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const HeapVec &) const noexcept; // ! COME LAVORAVANO PER IL VETTORE 
-  inline bool operator!=(const HeapVec &) const noexcept; //! IDEM
+  bool operator==(const HeapVec &) const noexcept;
+  inline bool operator!=(const HeapVec &) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Heap)
 
-  bool IsHeap() const noexcept override; //! Override Heap member CICLO CON LA FUNZIONE AUSILIARIA CHE TESTA SE TRA I TRE INDICI IL MASSIMO STA IN HTESTA
+  bool IsHeap() const noexcept override; // Override Heap member
 
-  void Heapify() override; //! Override Heap member CHIAMERA FOR DALL ULTIMO PADRE A 0 E CHIAMIAMO HEAPIFY PROTECTED HA UNA SIZE INTEGRATA non so se questa o l'altra
+  void Heapify() override; // Override Heap member
 
   /* ************************************************************************ */
 
@@ -86,7 +87,7 @@ public:
 protected:
   
   HeapVec(const ulong);
-  void Heapify(ulong, ulong);
+  void HeapifyDown(ulong, ulong);
   void HeapSort();
   
 };

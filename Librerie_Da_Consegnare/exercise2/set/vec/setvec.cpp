@@ -19,7 +19,7 @@ SetVec<Data>::SetVec(const TraversableContainer<Data> &cont) : SetVec<Data>(cont
 }
 
 template <typename Data>
-SetVec<Data>::SetVec(MappableContainer<Data> &&cont) : SetVec<Data>(cont.Size()) // A set obtained from a MappableContainer non mette noexcept? 
+SetVec<Data>::SetVec(MappableContainer<Data> &&cont) : SetVec<Data>(cont.Size()) // A set obtained from a MappableContainer
 {
     cont.Map
     (

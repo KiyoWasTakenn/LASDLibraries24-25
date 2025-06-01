@@ -31,11 +31,8 @@ PQHeap<Data>::PQHeap(MappableContainer<Data> &&cont) : Vector<Data>::Vector(std:
 
 // Copy constructor
 template <typename Data>
-PQHeap<Data>::PQHeap(const PQHeap &cpheap) : Vector<Data>::Vector(cpheap.size), HeapVec<Data>(cpheap)
-{
-    for(ulong i = 0; i < cpheap.size; i++)
-        (*this)[i] = cpheap[i];
-    
+PQHeap<Data>::PQHeap(const PQHeap &cpheap) : Vector<Data>::Vector(cpheap), HeapVec<Data>(cpheap)
+{   
     capacity = size;
 }
 
@@ -65,9 +62,8 @@ PQHeap<Data> & PQHeap<Data>::operator=(const PQHeap &cpheap)
 template <typename Data>
 PQHeap<Data> & PQHeap<Data>::operator=(PQHeap &&mvheap) noexcept
 {
-    std::swap(this->Elements, mvheap.Elements);
+    HeapVec<Data>::operator=(std::move(mvheap));
     std::swap(this->capacity, mvheap.capacity);
-    std::swap(this->size, mvheap.size);
 
     return *this;
 }
@@ -87,7 +83,7 @@ void PQHeap<Data>::RemoveTip() // Override PQ member (must throw std::length_err
         throw std::length_error("Length Exception: PQHeap is empty");
 
     std::swap((*this)[0], (*this)[size - 1]);
-    Heapify(--size, 0);
+    HeapifyDown(--size, 0);
 
     checkResize();
 }
@@ -121,29 +117,32 @@ void PQHeap<Data>::Insert(Data &&mvheap) // Override PQ member (Move of the valu
     checkResize();
 
     Elements[size++] = std::move(mvheap);
+
     HeapifyUp(size - 1); //HeapifyUp
 }
 
 template <typename Data>
-void PQHeap<Data>::Change(ulong index, const Data &cpheap) // Override PQ member (Copy of the value)
+void PQHeap<Data>::Change(ulong index, const Data &cpdata) // Override PQ member (Copy of the value)
 {
-    (*this)[index] = cpheap;
+    Data oldValue = (*this)[index];
+    (*this)[index] = cpdata;
 
-    if((*this)[index] > (*this)[floor(index/2)])
+    if(cpdata > oldValue)
         HeapifyUp(index);
-    else 
-        Heapify(size, index);
+    else if(cpdata < oldValue)
+        HeapifyDown(size, index);
 }
 
 template <typename Data>
-void PQHeap<Data>::Change(ulong index, Data &&mvheap)  // Override PQ member (Move of the value)
+void PQHeap<Data>::Change(ulong index, Data &&mvdata)  // Override PQ member (Move of the value)
 {
-    (*this)[index] = std::move(mvheap);
+    Data oldValue = (*this)[index];
+    (*this)[index] = std::move(mvdata);
 
-    if((*this)[index] > (*this)[floor(index/2)])
+    if(mvdata > oldValue)
         HeapifyUp(index);
-    else 
-        Heapify(size, index);
+    else if(mvdata < oldValue)
+        HeapifyDown(size, index);
 }
 
 /* ---------------------------PQHeap: Auxilary Functions -------------------------- */
@@ -153,7 +152,7 @@ void PQHeap<Data>::HeapifyUp(ulong index)
 {
     if(index > 0)
     {
-        ulong dad = (index - 1) /2;
+        ulong dad = (index - 1) / 2;
         if((*this)[dad] < (*this)[index])
         {
             std::swap((*this)[dad], (*this)[index]);
