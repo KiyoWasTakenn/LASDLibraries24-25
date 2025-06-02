@@ -32,7 +32,7 @@ SetLst<Data>::SetLst(MappableContainer<Data> &&cont) // A set obtained from a Ma
 
 // Copy constructor
 template <typename Data>
-SetLst<Data>::SetLst(const SetLst &lst) : List<Data>::List(lst) { }
+SetLst<Data>::SetLst(const SetLst &lst) : List<Data>::List(lst) {}
 
 // Move constructor
 template <typename Data>

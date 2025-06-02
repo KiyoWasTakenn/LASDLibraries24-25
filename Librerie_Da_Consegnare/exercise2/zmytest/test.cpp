@@ -11,6 +11,9 @@
 #include "set/vec/setvec.hpp"
 #include "set/lst/setlst.hpp"
 
+#include "heap/heapvec.hpp"
+#include "pq/pqheap.hpp"
+
 /* ************************************************************************** */
 
 using namespace std;
@@ -43,15 +46,14 @@ void MyTestExercise1B()
     check(setlst_test);
 }
 
-
-// void MyTestExercise2A()
-// {
-//     check(heapvec_test);
-// }
+void MyTestExercise2A()
+{
+    check(hpvec_test);
+}
 
 // void MyTestExercise2B()
 // {
-//     check(pqheap_test);
+//     check(pqhp_test);
 // }
 
 void mytest()
@@ -80,12 +82,12 @@ void mytest()
     testnum = testerr = 0;
 
 
-    // cout << endl << "---------------------- STARTING MyTestExercise2A ----------------------" << endl;
-    // MyTestExercise2A();
-    // cout << endl << "MyTestExercise2: Errors/Tests: " << testerr << "/" << testnum << endl;
-    // uint testnum2 = testnum;
-    // uint testerr2 = testerr;
-    // cout << endl << "---------------------- END OF MyTestExercise2A ---------------------- " << endl;
+    cout << endl << "---------------------- STARTING MyTestExercise2A ----------------------" << endl;
+    MyTestExercise2A();
+    cout << endl << "MyTestExercise2: Errors/Tests: " << testerr << "/" << testnum << endl;
+    uint testnum3 = testnum;
+    uint testerr3 = testerr;
+    cout << endl << "---------------------- END OF MyTestExercise2A ---------------------- " << endl;
 
 
     // testnum = testerr = 0;
@@ -94,8 +96,8 @@ void mytest()
     // cout << endl << "---------------------- STARTING MyTestExercise2B ----------------------" << endl;
     // MyTestExercise2B();
     // cout << endl << "MyTestExercise2: Errors/Tests: " << testerr << "/" << testnum << endl;
-    // uint testnum2 = testnum;
-    // uint testerr2 = testerr;
+    // uint testnum4 = testnum;
+    // uint testerr4 = testerr;
     // cout << endl << "---------------------- END OF MyTestExercise2B ---------------------- " << endl;
 
 
@@ -105,7 +107,11 @@ void mytest()
 
     cout << endl << "MyTestExercise1A: Errors/Tests: " << testerr1 << "/" << testnum1 << endl;
     cout << endl << "MyTestExercise1B: Errors/Tests: " << testerr2 << "/" << testnum2 << endl;
-    cout << endl << "Total Errors: Errors/Tests: " << testerr1 + testerr2 << "/" << testnum1 + testnum2 << endl;
+    cout << endl << "Total Errors Exercise1: Errors/Tests: " << testerr1 + testerr2 << "/" << testnum1 + testnum2 << endl;
+
+    cout << endl << "MyTestExercise2A: Errors/Tests: " << testerr3 << "/" << testnum3 << endl;
+    // cout << endl << "MyTestExercise2B: Errors/Tests: " << testerr4 << "/" << testnum4 << endl;
+    // cout << endl << "Total Errors Exercise2: Errors/Tests: " << testerr3 + testerr4 << "/" << testnum3 + testnum4 << endl;
 
     cout << endl << "---------------------- END OF MyTests ----------------------" << endl;
 }

@@ -1,5 +1,3 @@
-#include "pqheap.hpp"
-#include <cmath>
 
 namespace lasd {
 
@@ -19,6 +17,9 @@ template <typename Data>
 PQHeap<Data>::PQHeap(const TraversableContainer<Data> &cont) : Vector<Data>::Vector(cont), HeapVec<Data>::HeapVec(cont)
 {
     capacity = size;
+
+    if(size < 2)
+        Resize(2);
 }
 
 // A priority queue obtained from a MappableContainer
@@ -26,12 +27,16 @@ template <typename Data>
 PQHeap<Data>::PQHeap(MappableContainer<Data> &&cont) : Vector<Data>::Vector(std::move(cont))
 {
     capacity = size; 
+
     Heapify();
+
+    if(size < 2)
+        Resize(2);
 } 
 
 // Copy constructor
 template <typename Data>
-PQHeap<Data>::PQHeap(const PQHeap &cpheap) : Vector<Data>::Vector(cpheap), HeapVec<Data>(cpheap)
+PQHeap<Data>::PQHeap(const PQHeap &cpheap) : Vector<Data>::Vector(cpheap), SortableVector<Data>::SortableVector(cpheap), HeapVec<Data>::HeapVec(cpheap)
 {   
     capacity = size;
 }
@@ -41,7 +46,6 @@ template <typename Data>
 PQHeap<Data>::PQHeap(PQHeap &&mvheap) noexcept : Vector<Data>::Vector(std::move(mvheap))
 {
     std::swap(this->capacity, mvheap.capacity);
-    Heapify();
 }
 
 /* ---------------------------PQHeap: Assignments -------------------------- */
@@ -94,7 +98,7 @@ Data PQHeap<Data>::TipNRemove() // Override PQ member (must throw std::length_er
     if(size == 0)
         throw std::length_error("Length Exception: PQHeap is empty");
 
-    Data tmpTip = (*this)[0];
+    Data tmpTip = std::move((*this)[0]);
 
     RemoveTip();
 
@@ -148,28 +152,17 @@ void PQHeap<Data>::Change(ulong index, Data &&mvdata)  // Override PQ member (Mo
 /* ---------------------------PQHeap: Auxilary Functions -------------------------- */
 
 template <typename Data>
-void PQHeap<Data>::HeapifyUp(ulong index)
+void PQHeap<Data>::HeapifyUp(ulong index)                                                        
 {
     if(index > 0)
     {
         ulong dad = (index - 1) / 2;
-        if((*this)[dad] < (*this)[index])
+        if(Elements[dad] < Elements[index])
         {
-            std::swap((*this)[dad], (*this)[index]);
+            std::swap(Elements[dad], Elements[index]);
             HeapifyUp(dad);
         }
     }    
-}
-
-template <typename Data>
-void PQHeap<Data>::Resize(const ulong newDim)
-{
-    ulong oldSize = size;
-
-    Vector<Data>::Resize(newDim);
-    capacity = size;
-
-    size = oldSize;
 }
 
 template <typename Data>
@@ -187,6 +180,22 @@ void PQHeap<Data>::checkResize()
         Resize(std::max(capacity / 2, 2UL));
     else if(static_cast<double>(size) / capacity >= 0.9)
         Resize(capacity * 2);
+}
+
+template <typename Data>
+void PQHeap<Data>::Resize(const ulong newCapacity)
+{
+    Data * resElements = new Data[newCapacity] {};
+    
+    for(ulong i = 0; i < size; i++)
+        resElements[i] = (*this)[i];
+
+    std::swap(Elements, resElements);
+
+    this->capacity = newCapacity;
+
+    delete[] resElements;
+    resElements = nullptr;
 }
 
 template <typename Data>

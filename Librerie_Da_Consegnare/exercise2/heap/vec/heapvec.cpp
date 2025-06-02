@@ -21,7 +21,7 @@ HeapVec<Data>::HeapVec(MappableContainer<Data> &&cont) : Vector<Data>::Vector(st
 
 // Copy constructor
 template <typename Data>
-HeapVec<Data>::HeapVec(const HeapVec<Data> &hvec) : Vector<Data>::Vector(hvec) {}
+HeapVec<Data>::HeapVec(const HeapVec<Data> &hvec) : Vector<Data>::Vector(hvec), SortableVector<Data>::SortableVector(hvec) {}
 
 // Move constructor
 template <typename Data>
@@ -73,10 +73,10 @@ bool HeapVec<Data>::IsHeap() const noexcept
                 ulong fsx = 2 * i + 1;
                 ulong fdx = 2 * i + 2;
 
-                if((*this)[fsx] > (*this)[i])
+                if(Elements[fsx] > Elements[i])
                     return false;
                 
-                if(fdx < size && (*this)[fdx] > (*this)[i])
+                if(fdx < size && Elements[fdx] > Elements[i])
                     return false;  
             }
         }
@@ -84,9 +84,9 @@ bool HeapVec<Data>::IsHeap() const noexcept
 } 
 
 template <typename Data>
-void HeapVec<Data>::Heapify()
+void HeapVec<Data>::Heapify() noexcept
 {
-    for(ulong i = size/2; i>0; i--)
+    for(ulong i = size/2; i > 0; i--)
         HeapifyDown(size, i-1);
 }
 
@@ -101,36 +101,36 @@ inline void HeapVec<Data>::Sort() noexcept
 /* ---------------------------HeapVec: Auxilary functions -------------------------- */
 
 template <typename Data>
-void HeapVec<Data>::HeapifyDown(ulong length, ulong root)
+void HeapVec<Data>::HeapifyDown(ulong length, ulong root) noexcept
 {
     ulong max = root;
 
     ulong fsx = 2 * root + 1;
     ulong fdx = 2 * root + 2;
 
-    if(fsx < length && (*this)[fsx] > (*this)[max] )
+    if(fsx < length && Elements[fsx] > Elements[max] )
             max = fsx;
 
-    if(fdx < length && (*this)[fdx] > (*this)[max] )
+    if(fdx < length && Elements[fdx] > Elements[max] )
             max = fdx;
 
     if(root != max)
         {
-            std::swap((*this)[root], (*this)[max]);
+            std::swap(Elements[root], Elements[max]);
             HeapifyDown(length, max);
         }
 }
 
 template <typename Data>
-void HeapVec<Data>::HeapSort()
+void HeapVec<Data>::HeapSort() noexcept
 {
     if(size > 1)
     {
         Heapify();
 
-        for(ulong i = size - 1; i>=1; i--)
+        for(ulong i = size - 1; i >= 1; i--)
             {
-                std::swap((*this)[0], (*this)[i]);
+                std::swap(Elements[0], Elements[i]);
                 HeapifyDown(i, 0);
             }
     }

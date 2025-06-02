@@ -39,7 +39,7 @@ public:
 
   // Specific member functions
 
-  virtual inline const Data & Tip() const = 0 ;// (concrete function must throw std::length_error when empty)
+  virtual inline const Data & Tip() const = 0; // (concrete function must throw std::length_error when empty)
 
   virtual void RemoveTip() = 0; // (concrete function must throw std::length_error when empty)
   virtual Data TipNRemove() = 0; // (concrete function must throw std::length_error when empty)

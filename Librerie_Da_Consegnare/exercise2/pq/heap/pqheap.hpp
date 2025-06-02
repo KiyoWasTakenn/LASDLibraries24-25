@@ -36,7 +36,6 @@ public:
   using HeapVec<Data>::Front;
   using HeapVec<Data>::Back;
   using HeapVec<Data>::operator[];
-  using HeapVec<Data>::Clear;
 
   // Default constructor
   PQHeap();
@@ -59,7 +58,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  ~PQHeap() = default;
+  virtual ~PQHeap() = default;
 
   /* ************************************************************************ */
 
@@ -77,20 +76,18 @@ public:
   void RemoveTip() override; // Override PQ member (must throw std::length_error when empty)
   Data TipNRemove() override; // Override PQ member (must throw std::length_error when empty)
 
-  void Insert(const Data &) override ; // Override PQ member (Copy of the value)
-  void Insert(Data &&) override ; // Override PQ member (Move of the value)
+  void Insert(const Data &) override; // Override PQ member (Copy of the value)
+  void Insert(Data &&) override; // Override PQ member (Move of the value)
 
   void Change(ulong, const Data &) override; // Override PQ member (Copy of the value)
-  void Change(ulong, Data &&) override; // Override PQ member (Move of the value)
+  void Change(ulong, Data &&) override; // Override PQ member (Move of the value)            
 
 protected:
 
   void HeapifyUp(ulong);
-
   void checkResize();
   void Resize(const ulong) override;
-
-  void Clear() override;
+  void Clear() override;  
 
 };
 

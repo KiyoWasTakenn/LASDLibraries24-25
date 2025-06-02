@@ -54,7 +54,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  ~HeapVec() = default;
+  virtual ~HeapVec() = default;
 
   /* ************************************************************************ */
 
@@ -76,7 +76,7 @@ public:
 
   bool IsHeap() const noexcept override; // Override Heap member
 
-  void Heapify() override; // Override Heap member
+  void Heapify() noexcept override; // Override Heap member
 
   /* ************************************************************************ */
 
@@ -85,10 +85,9 @@ public:
   inline void Sort() noexcept override; // Override SortableLinearContainer member
 
 protected:
-  
-  HeapVec(const ulong);
-  void HeapifyDown(ulong, ulong);
-  void HeapSort();
+ 
+  void HeapifyDown(ulong, ulong) noexcept;
+  void HeapSort() noexcept;
   
 };
 
