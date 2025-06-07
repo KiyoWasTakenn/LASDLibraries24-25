@@ -83,7 +83,6 @@ void myhpvec_int(uint &testnum, uint &testerr)
         // ConstructorWithSize(from Vec)
         {
             // SIZE 0 
-
             lasd::SortableVector<int> emptyvec(0);
             lasd::HeapVec<int> emptyhp(emptyvec);
 
@@ -121,7 +120,6 @@ void myhpvec_int(uint &testnum, uint &testerr)
             Empty(loctestnum, loctesterr, emptyhp, true);
 
             // SIZE 1
-
             lasd::SortableVector<int> singlevec(1);
             SetAt(loctestnum, loctesterr, singlevec, true, 0, 7);
             lasd::HeapVec<int> singlehp(singlevec);
@@ -165,7 +163,6 @@ void myhpvec_int(uint &testnum, uint &testerr)
             IsHeap(loctestnum, loctesterr, singlehp, true);
 
             // SIZE 3
-
             lasd::SortableVector<int> multivec(3);
             SetAt(loctestnum, loctesterr, multivec, true, 0, 7);
             SetAt(loctestnum, loctesterr, multivec, true, 1, 8);
@@ -2362,7 +2359,7 @@ void myhpvec_string(uint &testnum, uint &testerr)
             lasd::SetVec<string> setvec_multi_src; 
             InsertC(loctestnum, loctesterr, setvec_multi_src, true, string("binary_search")); 
             InsertC(loctestnum, loctesterr, setvec_multi_src, true, string("hash_table")); 
-            InsertC(loctestnum, loctesterr, setvec_multi_src, true, string("graph_traversal"));
+            InsertC(loctestnum, loctesterr, setvec_multi_src, true, string("graph"));
             h_assign_dest_from_setvec = setvec_multi_src; 
             GetFront(loctestnum, loctesterr, h_assign_dest_from_setvec, true, string("hash_table")); 
             Size(loctestnum, loctesterr, h_assign_dest_from_setvec, true, 3);
@@ -2403,19 +2400,24 @@ void myhpvec_string(uint &testnum, uint &testerr)
             SetAt(loctestnum, loctesterr, vec_data3, true, 0, string("beta")); 
             SetAt(loctestnum, loctesterr, vec_data3, true, 1, string("delta")); 
             SetAt(loctestnum, loctesterr, vec_data3, true, 2, string("alpha"));
+
             lasd::HeapVec<string> h1(vec_data1); 
             lasd::HeapVec<string> h2(vec_data2); 
             lasd::HeapVec<string> h3(vec_data1); 
+
             h3.Sort(); 
+
             lasd::HeapVec<string> h4(vec_data3); 
             lasd::HeapVec<string> h_empty1; 
             lasd::HeapVec<string> h_empty2;
+
             EqualLinear(loctestnum, loctesterr, h1, h2, true); 
-            NonEqualLinear(loctestnum, loctesterr, h1, h3, true); 
+            NonEqualLinear(loctestnum, loctesterr, h1, h3, true);
             lasd::HeapVec<string> h1_sorted_copy(vec_data1); 
             h1_sorted_copy.Sort(); 
             EqualLinear(loctestnum, loctesterr, h3, h1_sorted_copy, true);
             NonEqualLinear(loctestnum, loctesterr, h1, h4, true);
+            NonEqualLinear(loctestnum, loctesterr, h1, h_empty1, true);
             EqualLinear(loctestnum, loctesterr, h_empty1, h_empty2, true);
         }
 
@@ -2455,12 +2457,18 @@ void myhpvec_string(uint &testnum, uint &testerr)
             GetAt(loctestnum, loctesterr, hv_dupl, true, 0, string("bravo")); 
             GetAt(loctestnum, loctesterr, hv_dupl, true, 2, string("delta"));
         }
+
         // Test su const + eccezioni
         {
             lasd::SortableVector<string> const_vec_data(3); 
             SetAt(loctestnum, loctesterr, const_vec_data, true, 0, string("final")); 
             SetAt(loctestnum, loctesterr, const_vec_data, true, 1, string("const")); 
             SetAt(loctestnum, loctesterr, const_vec_data, true, 2, string("static_final")); 
+            
+            const lasd::HeapVec<std::string> const_hv_empty; 
+            Empty(loctestnum, loctesterr, const_hv_empty, true); 
+            Size(loctestnum, loctesterr, const_hv_empty, true, 0);
+            IsHeap(loctestnum, loctesterr, const_hv_empty, true); 
             
             const lasd::HeapVec<string> const_hv(const_vec_data); 
             GetFront(loctestnum, loctesterr, const_hv, true, string("static_final")); 

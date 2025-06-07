@@ -161,7 +161,6 @@ void stestHeapInt(uint & testnum, uint & testerr) {
     heap3.Sort();
 
     IsHeap(loctestnum, loctesterr, heap3, false);
-    
 
   }
   catch (...) {
@@ -241,7 +240,7 @@ void stestHeapString(uint & testnum, uint & testerr) {
     SetAt(loctestnum, loctesterr, vec, true, 13, string("G"));
 
     lasd::HeapVec<string> heap(vec);
-  
+
     TraversePreOrder(loctestnum, loctesterr, heap, true, &TraversePrint<string>);
     TraversePostOrder(loctestnum, loctesterr, heap, true, &TraversePrint<string>);
 
