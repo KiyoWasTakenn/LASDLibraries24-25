@@ -36,7 +36,7 @@ public:
   using HeapVec<Data>::Front;
   using HeapVec<Data>::Back;
   using HeapVec<Data>::operator[];
-
+  
   // Default constructor
   PQHeap();
 
@@ -82,12 +82,13 @@ public:
   void Change(ulong, const Data &) override; // Override PQ member (Copy of the value)
   void Change(ulong, Data &&) override; // Override PQ member (Move of the value)            
 
+  void Clear() override;  
+  
 protected:
 
   void HeapifyUp(ulong);
   void checkResize();
   void Resize(const ulong) override;
-  void Clear() override;  
 
 };
 

@@ -937,7 +937,6 @@ void myhpvec_int(uint &testnum, uint &testerr)
             SetAt(loctestnum, loctesterr, hv_exc_one, false, 1, 20);
             SetAt(loctestnum, loctesterr, hv_exc_one, false, 5, 20);
         }
-        
     }
     catch(...)
     {
@@ -2486,7 +2485,6 @@ void myhpvec_string(uint &testnum, uint &testerr)
             SetAt(loctestnum, loctesterr, hv_exc_one, false, 1, string("no_throw")); 
             SetAt(loctestnum, loctesterr, hv_exc_one, false, 5, string("no_throw_either"));
         }
-        
     }
     catch(...)
     {

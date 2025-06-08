@@ -749,8 +749,7 @@ void mypqhp_int(uint &testnum, uint &testerr)
                 Size(loctestnum, loctesterr, pq_stress, false, 0);
 
             // 3: Operazioni dopo Clear
-            while(!pq_stress.Empty())
-                RemoveTip(loctestnum, loctesterr, pq_stress, true);
+            pq_stress.Clear();
 
             Empty(loctestnum, loctesterr, pq_stress, true);
 
@@ -1514,8 +1513,7 @@ void mypqhp_double(uint &testnum, uint &testerr)
                 Size(loctestnum, loctesterr, pq_stress, false, 0);
 
             // 3: Operazioni dopo Clear
-            while(!pq_stress.Empty())
-                RemoveTip(loctestnum, loctesterr, pq_stress, true);
+            pq_stress.Clear();
 
             Empty(loctestnum, loctesterr, pq_stress, true);
 
@@ -2301,8 +2299,7 @@ void mypqhp_string(uint &testnum, uint &testerr)
                 Size(loctestnum, loctesterr, pq_stress, false, 0);
 
             // 3: Operazioni dopo Clear
-            while(!pq_stress.Empty())
-                RemoveTip(loctestnum, loctesterr, pq_stress, true);
+            pq_stress.Clear();
 
             Empty(loctestnum, loctesterr, pq_stress, true);
 
