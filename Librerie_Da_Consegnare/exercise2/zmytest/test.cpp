@@ -48,12 +48,12 @@ void check(TFun test)
 
 void MyTestExercise2A()
 {
-    check(hpvec_test);
+    check(myhpvec_test);
 }
 
 void MyTestExercise2B()
 {
-    check(pqhp_test);
+    check(mypqhp_test);
 }
 
 void mytest()

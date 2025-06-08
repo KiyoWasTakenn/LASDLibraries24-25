@@ -86,7 +86,7 @@ public:
   
 protected:
 
-  void HeapifyUp(ulong);
+  void HeapifyUp(ulong) noexcept;
   void checkResize();
   void Resize(const ulong) override;
 

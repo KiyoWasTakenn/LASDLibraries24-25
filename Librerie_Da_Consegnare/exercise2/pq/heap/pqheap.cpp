@@ -152,7 +152,7 @@ void PQHeap<Data>::Change(ulong index, Data &&mvdata)  // Override PQ member (Mo
 /* ---------------------------PQHeap: Auxilary Functions -------------------------- */
 
 template <typename Data>
-void PQHeap<Data>::HeapifyUp(ulong index)                                                        
+void PQHeap<Data>::HeapifyUp(ulong index) noexcept                                                        
 {
     if(index > 0)
     {

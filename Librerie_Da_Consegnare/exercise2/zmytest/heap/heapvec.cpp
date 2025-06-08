@@ -2500,7 +2500,7 @@ void myhpvec_string(uint &testnum, uint &testerr)
 
 /* ************************************************************************** */
 
-void hpvec_test(uint &testnum, uint &testerr)
+void myhpvec_test(uint &testnum, uint &testerr)
 {
     myhpvec_int(testnum, testerr);
     myhpvec_double(testnum, testerr);

@@ -2345,7 +2345,7 @@ void mypqhp_string(uint &testnum, uint &testerr)
 
 /* ************************************************************************** */
 
-void pqhp_test(uint &testnum, uint &testerr)
+void mypqhp_test(uint &testnum, uint &testerr)
 {
     mypqhp_int(testnum, testerr);
     mypqhp_double(testnum, testerr);
